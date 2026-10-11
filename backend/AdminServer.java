@@ -210,7 +210,7 @@ public class AdminServer {
             "<div class='menu' id='m_admin'><div class='card'><b>修改管理员密码</b><br>原密码<input id='oldpw' type='password'> 新密码<input id='newpw' type='password'><button class='g' onclick='setPw()'>保存</button><pre id='pwmsg'></pre></div></div>" +
             "<div class='menu' id='m_logs'><div class='card'><b>操作日志</b> 日期<input id='logdate' placeholder='YYYY-MM-DD'> <button class='b' onclick='logsLoad()'>查询</button><pre id='logtext' style='max-height:520px;overflow:auto'></pre></div></div>" +
             "<script>" + js +
-            "function loadItems(){(function(){let u='items?type=gm';fetch(u).then(r=>r.json()).then(a=>{['item','aitem'].forEach(id=>{let s=document.getElementById(id);if(!s)return;s.innerHTML='<option value=\'\'>加载中...</option>';let frag=document.createDocumentFragment();a.forEach(o=>{let p=document.createElement('option');p.value=o.type+','+o.itemsid;p.textContent=o.goods;frag.appendChild(p);});s.innerHTML='';s.appendChild(frag);});});})();}function needItems(){if(window.__itemsLoaded)return;window.__itemsLoaded=1;loadItems();}" +
+            "function loadItems(){(function(){let u='items?type=gm';fetch(u).then(r=>r.json()).then(a=>{['item','aitem'].forEach(id=>{let s=document.getElementById(id);if(!s)return;let frag=document.createDocumentFragment();a.forEach(o=>{let p=document.createElement('option');p.value=o.type+','+o.itemsid;p.textContent=o.goods;frag.appendChild(p);});s.innerHTML='';s.appendChild(frag);});});})();}function needItems(){if(window.__itemsLoaded)return;window.__itemsLoaded=1;loadItems();}" +
             "</script></div></div></body></html>";
         return page;
     }
