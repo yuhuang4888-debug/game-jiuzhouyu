@@ -1,0 +1,27 @@
+# GM/后台 服务配置示例 —— 复制为 gm.properties 并按需修改
+# 注意：真实文件不要提交到仓库
+
+gm_title=非凡仙途
+gm_code=CHANGE_ME_GM_CODE
+gm_enabled=0
+
+db_host=127.0.0.1
+db_port=3307
+db_user=root
+db_pass=CHANGE_ME_DB_PASSWORD
+db_name=game_s1
+
+listen_port=8898
+admin_listen_port=8897
+admin_user=admin
+admin_pass=CHANGE_ME_ADMIN_PASSWORD
+
+# 客户端 web 根目录
+game_root=/home/game-www
+
+# 区服：id=服务目录名（对应 game_s1 / game_kf）
+servers=1=game_s1
+server_name_1=非凡仙途1区
+
+mail_title=系统邮件
+mail_content=非凡仙途-系统官方给您发邮件了！

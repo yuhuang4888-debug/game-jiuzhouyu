@@ -1,0 +1,1 @@
+alter table role_lv_act_data add column open_time int unsigned not null default 0 comment '开始时间' after sub_type;

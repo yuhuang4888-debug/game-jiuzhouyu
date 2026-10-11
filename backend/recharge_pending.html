@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>充值订单</title>
+<style>
+ body{margin:0;background:#0b1020;color:#e8e6f0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif;display:flex;min-height:100vh;align-items:center;justify-content:center}
+ .c{max-width:420px;width:100%;margin:16px;background:linear-gradient(180deg,#151b34,#1a2140);border:1px solid #2a3456;border-radius:16px;padding:22px;text-align:center}
+ h2{color:#f3e7c4;font-size:19px;margin:4px 0 14px}
+ .oid{font-size:13px;color:#8f9cc0;word-break:break-all}
+ .amt{font-size:30px;font-weight:700;color:#f3d98a;margin:14px 0}
+ .tip{font-size:13px;color:#b9c2dd;line-height:1.7;text-align:left;background:#0f1428;border:1px solid #2f3a5e;border-radius:12px;padding:12px;margin-top:14px}
+ .btn{display:block;width:100%;margin-top:14px;padding:14px;border:0;border-radius:12px;background:linear-gradient(180deg,#f4dd9a,#e3b955);color:#3a2c00;font-weight:700;font-size:16px;cursor:pointer}
+ .btn.sec{background:#243050;color:#cfe;font-weight:500}
+ .ok{color:#7ee2a8;font-size:15px;min-height:20px;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="c">
+  <h2 id="ttl">订单已创建</h2>
+  <div>订单号：<span class="oid" id="oid">—</span></div>
+  <div class="amt" id="amt">¥—</div>
+  <div class="tip">
+    <b>当前为测试通道</b>（未接入真实支付宝/微信）：点击下方按钮将模拟支付成功，并把对应勾玉发放到该角色的游戏邮箱，进游戏后在邮箱领取即可。
+  </div>
+  <button class="btn" id="payBtn">模拟支付（测试通道）</button>
+  <a class="btn sec" href="javascript:history.back()" style="text-decoration:none;display:block">返回</a>
+  <div class="ok" id="ok"></div>
+</div>
+<script>
+var q = new URLSearchParams(location.search);
+var order = q.get('order') || '';
+var money = q.get('money') || '';
+document.getElementById('oid').textContent = order || '—';
+document.getElementById('amt').textContent = money ? ('¥' + money) : '¥—';
+
+function doMock(){
+  var ok = document.getElementById('ok'), btn = document.getElementById('payBtn');
+  if(!order){ ok.textContent = '缺少订单号'; return; }
+  btn.disabled = true; btn.textContent = '正在处理...';
+  fetch('/api/api.php', {method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body:'method=mock_pay&order=' + encodeURIComponent(order) + '&money=' + encodeURIComponent(money)})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d && d.ret === 0){
+        document.getElementById('ttl').textContent = '充值成功';
+        ok.textContent = '✅ ' + (d.msg || '已到账') + '（请进入游戏在邮箱领取）';
+        btn.style.display = 'none';
+      } else {
+        ok.textContent = (d && d.msg) ? d.msg : '处理失败';
+        btn.disabled = false; btn.textContent = '模拟支付（测试通道）';
+      }
+    })
+    .catch(function(){ ok.textContent = '网络异常'; btn.disabled = false; btn.textContent = '模拟支付（测试通道）'; });
+}
+document.getElementById('payBtn').onclick = doMock;
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+{
+  "name": "h5",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "bin": {
+    "h5": "index.js"
+  },
+  "dependencies": {
+    "chokidar": "^3.5.3",
+    "circular-dependency-plugin": "^5.2.2",
+    "colors": "^1.4.0",
+    "commander": "^9.2.0",
+    "compressing": "^1.5.1",
+    "compression": "^1.7.4",
+    "copy-webpack-plugin": "^5.1.1",
+    "express": "~4.17.1",
+    "filewatcher-webpack-plugin": "^1.2.0",
+    "fork-ts-checker-webpack-plugin": "^4.1.3",
+    "html-webpack-plugin": "^4.3.0",
+    "inquirer": "^8.2.2",
+    "md5": "^2.3.0",
+    "node-svn-ultimate": "^1.2.1",
+    "node.svn": "^0.1.8",
+    "psd": "^3.4.0",
+    "simple-git": "^3.5.0",
+    "ts-loader": "^9.2.8",
+    "tslib": "^2.3.0",
+    "typescript": "^4.6.2",
+    "webpack-dev-middleware": "~3.7.2",
+    "webpack-dev-server": "^3.10.3",
+    "webpack-watch-files-plugin": "^1.2.1",
+    "blob-polyfill": "^7.0.20220408",
+    "imageinfo": "^1.0.4"
+  },
+  "devDependencies": {
+    "case-sensitive-paths-webpack-plugin": "^2.4.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "esbuild-loader": "^2.18.0",
+    "prettier": "^2.6.2",
+    "webpack": "^5.0.0",
+    "webpack-cli": "^4.9.2"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.config.js -w",
+    "start": "node ./tools/compile-tools/cli.js start -p .",
+    "protoAll": "node ./tools/proto-tools/cli.js -a",
+    "proto": "node ./tools/proto-tools/cli.js -p",
+    "atlas": "node ./tools/image-tools/index.js",
+    "ktx": "node ./tools/image-tools/cli.js -e"
+  },
+  "author": "",
+  "license": "ISC"
+}

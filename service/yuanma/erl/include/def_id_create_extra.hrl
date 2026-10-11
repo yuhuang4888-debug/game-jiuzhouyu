@@ -1,0 +1,1 @@
+-define(MOD_ID_CREATE_FLAGWAR, 1).  %% 夺旗战，队伍ID

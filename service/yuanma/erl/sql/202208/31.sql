@@ -1,0 +1,1 @@
+alter table log_login add column wx_scene smallint unsigned not null default 0 comment '微信小程序登录场景';

@@ -1,0 +1,1 @@
+alter table log_reincarnation add column turn_type tinyint unsigned not null default 0 comment '使用转生丹' after role_id;

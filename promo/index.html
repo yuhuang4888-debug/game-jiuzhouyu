@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>九州谕 · 东方玄幻大作</title>
+<style>
+  :root{
+    --gold:#f0d38a; --gold2:#e3b955; --ink:#0c1220; --ink2:#141b2e; --line:#2b3550;
+    --txt:#e9e6ef; --mut:#a7b0cc;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;background:var(--ink);color:var(--txt);
+       font-family:-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif}
+  .wrap{max-width:520px;margin:0 auto;padding-bottom:84px;position:relative;overflow:hidden}
+
+  /* Hero */
+  .hero{position:relative;padding:56px 20px 40px;text-align:center;
+    background:linear-gradient(180deg,rgba(12,18,32,.72) 0%,rgba(12,18,32,.86) 45%,var(--ink) 100%), url('/promo/shots/shot1.png') center 8%/cover no-repeat;
+    }
+  .hero:after{content:"";position:absolute;inset:auto 0 -1px 0;height:120px;
+    background:linear-gradient(180deg,rgba(12,18,32,0) 0%,var(--ink) 90%)}
+  .badge{display:inline-block;font-size:12px;color:#0c1220;background:linear-gradient(180deg,var(--gold),var(--gold2));
+    padding:4px 12px;border-radius:999px;font-weight:700;letter-spacing:1px}
+  .logo{margin:18px 0 6px;display:flex;justify-content:center}
+  .logo img{width:230px;max-width:70%;filter:drop-shadow(0 6px 24px rgba(240,211,138,.25))}
+  .sub{color:var(--mut);font-size:14px;letter-spacing:2px}
+  .stats{display:flex;gap:10px;justify-content:center;margin:18px 0 22px;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:12px;color:var(--mut)}
+  .stat b{color:var(--gold);font-size:15px;margin-right:4px}
+  .cta{display:inline-block;position:relative;z-index:2;padding:15px 46px;border-radius:999px;border:0;
+    font-size:18px;font-weight:800;color:#3a2c00;cursor:pointer;
+    background:linear-gradient(180deg,#f8e6ae,#e3b955);box-shadow:0 10px 30px rgba(227,185,85,.35)}
+  .cta.ghost{background:transparent;color:var(--gold);border:1px solid var(--gold);box-shadow:none;font-weight:600;font-size:15px;padding:12px 26px;margin-left:10px}
+  .cta:active{transform:translateY(1px)}
+
+  /* Section */
+  .sec{padding:22px 16px 6px}
+  .h{display:flex;align-items:center;gap:8px;margin:0 0 14px;font-size:17px;font-weight:800;color:#fff}
+  .h:before{content:"";width:4px;height:16px;border-radius:2px;background:linear-gradient(180deg,var(--gold),var(--gold2))}
+
+  .feat{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .card{background:linear-gradient(180deg,var(--ink2),#101728);border:1px solid var(--line);
+    border-radius:14px;padding:14px}
+  .card .t{font-weight:700;color:#fff;font-size:15px;margin-bottom:6px}
+  .card .d{font-size:12px;color:var(--mut);line-height:1.6}
+  .ico{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(180deg,#2b3a63,#1b2440);color:var(--gold);font-weight:800;margin-bottom:8px}
+
+  .shots{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .jobs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .job{background:linear-gradient(180deg,var(--ink2),#101728);border:1px solid var(--line);border-radius:14px;
+    padding:12px;text-align:center}
+  .job .jart{height:120px;object-fit:contain;display:block;margin:0 auto 6px}
+  .job .jn{font-weight:800;color:#fff;font-size:15px}
+  .job .js{font-size:11px;color:var(--mut);line-height:1.6;margin-top:6px}
+  .shot{position:relative;border-radius:12px;border:1px solid var(--line);overflow:hidden;background:#0f1626}
+  .shot img{width:100%;display:block}
+  .shot span{position:absolute;left:0;right:0;bottom:0;padding:6px 8px;font-size:12px;color:#fff;
+    background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.72));text-align:center}
+
+  .gift{background:linear-gradient(180deg,#1c2440,#121a2e);border:1px solid var(--line);border-radius:14px;
+    padding:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+  .gift .t{font-weight:700}
+  .gift .d{font-size:12px;color:var(--mut);margin-top:4px}
+  .tag{font-size:12px;color:#3a2c00;background:linear-gradient(180deg,var(--gold),var(--gold2));
+    padding:5px 10px;border-radius:999px;font-weight:700;white-space:nowrap}
+
+  /* Bottom bar */
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(10,15,28,.92);
+    backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:10px 14px 14px;}
+  .bar .inner{max-width:520px;margin:0 auto;display:flex;gap:10px;align-items:center}
+  .bar .info{flex:1;font-size:12px;color:var(--mut);line-height:1.5}
+  .bar .info b{color:var(--gold)}
+  .bar a.mini{color:var(--mut);text-decoration:none;font-size:12px}
+  footer{padding:18px 16px 30px;color:#5d6a92;font-size:11px;text-align:center;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <span class="badge">东方玄幻 · 阴阳师题材</span>
+    <div class="logo"><img src="/promo/logo.png" alt="九州谕"></div>
+    <div class="sub">唯美画卷 · 激爽战斗 · 结社社交</div>
+    <div class="stats">
+      <div class="stat"><b>4</b>大职业</div>
+      <div class="stat"><b>3D</b>唯美画风</div>
+      <div class="stat"><b>每日</b>活动不断</div>
+    </div>
+    <button class="cta" id="playBtn">立即进入游戏</button>
+    <button class="cta ghost" id="rechargeBtn">充值中心</button>
+  </div>
+
+  <div class="sec">
+    <h3 class="h">游戏特色</h3>
+    <div class="feat">
+      <div class="card"><div class="ico">职</div><div class="t">四大职业</div><div class="d">剑士 / 武姬 / 枪客 / 弓手，自由培养，风格各异</div></div>
+      <div class="card"><div class="ico">战</div><div class="t">激爽战斗</div><div class="d">即时战斗，连招爆屏，BOSS 挑战、竞技排行</div></div>
+      <div class="card"><div class="ico">社</div><div class="t">结社社交</div><div class="d">结社、婚礼、师徒，与好友并肩战斗</div></div>
+      <div class="card"><div class="ico">活</div><div class="t">活动不断</div><div class="d">每日签到、限时抢购、累计充值好礼</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="h">四大职业</h3>
+    <div class="jobs">
+      <div class="job"><img class="jart" src="/promo/career/c1.png" alt="剑士"><div class="jn">剑士</div><div class="js">孤傲的神使之子<br>诞于绝境的曙光</div></div>
+      <div class="job"><img class="jart" src="/promo/career/c2.png" alt="武姬"><div class="jn">武姬</div><div class="js">和善的九尾之女<br>藏于名门的秘影</div></div>
+      <div class="job"><img class="jart" src="/promo/career/c3.png" alt="枪使"><div class="jn">枪使</div><div class="js">高冷的名将后裔<br>燃于黑夜的烈火</div></div>
+      <div class="job"><img class="jart" src="/promo/career/c4.png" alt="弓手"><div class="jn">弓手</div><div class="js">不羁的鬼族少女<br>凝于荒野的冰晶</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="h">游戏截图</h3>
+    <div class="shots">
+      <div class="shot"><img src="/promo/shots/job1.jpg" alt="剑士"><span>剑士</span></div>
+      <div class="shot"><img src="/promo/shots/job2.jpg" alt="武姬"><span>武姬</span></div>
+      <div class="shot"><img src="/promo/shots/job3.jpg" alt="枪使"><span>枪使</span></div>
+      <div class="shot"><img src="/promo/shots/job4.jpg" alt="弓手"><span>弓手</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="h">开服福利</h3>
+    <div class="gift"><div><div class="t">首充大礼</div><div class="d">首充即可获取豪华大礼，战力飙升</div></div><span class="tag">首充</span></div>
+    <div class="gift"><div><div class="t">每日登录</div><div class="d">连登好礼，天天有惊喜</div></div><span class="tag">签到</span></div>
+    <div class="gift"><div><div class="t">限时抢购</div><div class="d">超值礼包，限时折扣</div></div><span class="tag">抢购</span></div>
+  </div>
+
+  <footer>
+    九州谕 · 官方推广页<br>
+    <span id="host"></span>
+  </footer>
+</div>
+
+<div class="bar">
+  <div class="inner">
+    <div class="info">开服时间：<b>火热进行中</b><br>全新版本 · 千人在线</div>
+    <button class="cta" style="padding:12px 26px;font-size:16px" id="playBtn2">开始游戏</button>
+  </div>
+</div>
+
+<script>
+  // ===== 可配置项 =====
+  var GAME_URL = 'https://game.rqsr888.cn/';
+  var RECHARGE_URL = 'https://pay.rqsr888.cn/recharge/index.html';
+  // 截图（有真实截图时填资源路径，例如 '/resource/game/login/texture/xxx.png'）
+  var SHOTS = ['/promo/shots/shot1.png', '', ''];
+  // ===================
+
+  document.getElementById('playBtn').onclick = function(){ location.href = GAME_URL; };
+  document.getElementById('playBtn2').onclick = function(){ location.href = GAME_URL; };
+  document.getElementById('rechargeBtn').onclick = function(){ location.href = RECHARGE_URL; };
+  document.getElementById('host').textContent = location.host;
+
+  ['s1','s2','s3'].forEach(function(id, i){
+    if(SHOTS[i]){ document.getElementById(id).innerHTML = '<img src="'+SHOTS[i]+'" alt="截图">'; }
+  });
+</script>
+<div style="text-align:center;font-size:12px;color:#8a93b2;padding:14px 10px;line-height:1.8">运营单位：陕西诺全珊蕊网络科技有限公司&nbsp;&nbsp;<a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener" style="color:#8a93b2">陕ICP备2026024748号-1</a></div>
+</body>
+</html>

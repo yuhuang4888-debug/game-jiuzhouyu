@@ -1,0 +1,1 @@
+delete from task_log where `type` in (6,7,8,9);

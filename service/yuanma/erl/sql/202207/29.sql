@@ -1,0 +1,1 @@
+alter table server_zone_mod add index(`server_id`);

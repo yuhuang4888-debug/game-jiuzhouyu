@@ -1,0 +1,47 @@
+# ===== 构建产物 / 缓存 / 运行时 =====
+client/h5/laya/
+client/h5/bin/
+client/h5/release/
+client/h5/.laya/
+client/h5/.rpt2_cache/
+client/h5/node_modules/
+client/h5/tools/
+client/h5/FastCopy.exe
+client/h5/FastCopy.log
+client/h5/out.txt
+client/h5/*.log
+
+# Erlang OTP 运行时 + 编译产物
+service/erlang/
+service/yuanma/erl/ebin/
+service/yuanma/erl/logs/
+**/*.beam
+
+# 大数据 / 数据库导出（数据不是源码；如需发布请用 Release 或 Git LFS）
+service/excel/
+service/sql/
+deploy/db/
+*.db
+*.gz
+*.zip
+*.7z
+*.tar
+
+# ===== 敏感信息（切勿提交）=====
+.cowork-temp/
+**/alipay/
+*.key
+*.pem
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+*.properties.bak*
+*_bak.*
+
+# ===== 编辑器 / 系统 =====
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+*.swp

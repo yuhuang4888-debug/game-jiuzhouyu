@@ -1,0 +1,1 @@
+alter table log_role_retain MODIFY `source` varchar(100) NOT NULL COMMENT '渠道标识';

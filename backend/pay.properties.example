@@ -1,0 +1,28 @@
+# 支付服务配置示例 —— 复制为 pay.properties 并按需修改
+# 注意：真实文件、私钥、证书都不要提交到仓库
+
+# ---- 支付宝（证书模式）----
+alipay_appid=CHANGE_ME_APPID
+alipay_private_key_path=/data/gm/alipay/app_private_key.txt
+alipay_cert_mode=1
+alipay_app_cert_path=/data/gm/alipay/appCertPublicKey.crt
+alipay_cert_path=/data/gm/alipay/alipayCertPublicKey_RSA2.crt
+alipay_root_cert_path=/data/gm/alipay/alipayRootCert.crt
+alipay_gateway=https://openapi.alipay.com/gateway.do
+alipay_notify_url=https://pay.example.com/pay/notify
+alipay_return_url=https://pay.example.com/pay/return
+
+# ---- 微信（暂未接入）----
+wechat_appid=
+wechat_mchid=
+wechat_key=
+
+# ---- 服务 ----
+pay_listen_port=8896
+
+# 订单号：前缀 + 位数
+order_prefix=R
+order_digits=12
+
+alipay_enabled=1
+wechat_enabled=0

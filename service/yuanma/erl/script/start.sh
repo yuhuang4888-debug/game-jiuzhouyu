@@ -1,0 +1,2 @@
+            cd /data/erl/config
+                /data/erlang/bin/erl -kernel inet_dist_listen_min 40001 -kernel inet_dist_listen_max 40100 +P 1000000 +K true +A 100 +spp true -smp enable -hidden -name qudaoljgame33410@qudaolj334.jzy.suyougame.cn -setcookie qudaolj334NnJQua27Qal82zHpz -boot start_sasl -config gsrv -pa ../ebin -s gsrv start -extra qudaolj334.jzy.suyougame.cn 9180 10 #lburl

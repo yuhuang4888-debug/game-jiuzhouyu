@@ -1,0 +1,1 @@
+update role_boss set vit=0, vit_add_today=0, vit_can_back=0, last_vit_time=0 where boss_type=12;

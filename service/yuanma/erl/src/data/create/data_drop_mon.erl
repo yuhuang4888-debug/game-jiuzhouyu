@@ -1,0 +1,561 @@
+%%%---------------------------------------
+%%% @Module  : data_drop_mon
+%%% @Description:  怪物类型掉落
+%%%---------------------------------------
+-module(data_drop_mon).
+-compile(export_all).
+-include("drop.hrl").
+
+
+get_mon_drop_rule(8,1,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=1, mon_sys=2, slv=75, elv=999,drop_list = [14076],drop_rule = [{[{1000,5}],10000}]};
+get_mon_drop_rule(8,1,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=1, mon_sys=4, slv=75, elv=999,drop_list = [14076],drop_rule = [{[{1000,2}],10000}]};
+get_mon_drop_rule(8,1,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=1, mon_sys=7, slv=75, elv=999,drop_list = [14076],drop_rule = [{[{1000,1}],1000}]};
+get_mon_drop_rule(8,1,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=1, mon_sys=12, slv=75, elv=999,drop_list = [14076],drop_rule = [{[{1000,5}],10000}]};
+get_mon_drop_rule(8,2,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=2, mon_sys=2, slv=75, elv=999,drop_list = [14077],drop_rule = [{[{2000,5}],10000}]};
+get_mon_drop_rule(8,2,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=2, mon_sys=4, slv=75, elv=999,drop_list = [14077],drop_rule = [{[{2000,2}],10000}]};
+get_mon_drop_rule(8,2,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=2, mon_sys=7, slv=75, elv=999,drop_list = [14077],drop_rule = [{[{2000,1}],1000}]};
+get_mon_drop_rule(8,2,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=2, mon_sys=12, slv=75, elv=999,drop_list = [14077],drop_rule = [{[{2000,5}],10000}]};
+get_mon_drop_rule(8,3,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=3, mon_sys=2, slv=75, elv=999,drop_list = [14078],drop_rule = [{[{3000,5}],10000}]};
+get_mon_drop_rule(8,3,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=3, mon_sys=4, slv=75, elv=999,drop_list = [14078],drop_rule = [{[{3000,2}],10000}]};
+get_mon_drop_rule(8,3,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=3, mon_sys=7, slv=75, elv=999,drop_list = [14078],drop_rule = [{[{3000,1}],1000}]};
+get_mon_drop_rule(8,3,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=3, mon_sys=12, slv=75, elv=999,drop_list = [14078],drop_rule = [{[{3000,5}],10000}]};
+get_mon_drop_rule(8,4,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=4, mon_sys=2, slv=75, elv=999,drop_list = [14079],drop_rule = [{[{4000,5}],10000}]};
+get_mon_drop_rule(8,4,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=4, mon_sys=4, slv=75, elv=999,drop_list = [14079],drop_rule = [{[{4000,2}],10000}]};
+get_mon_drop_rule(8,4,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=4, mon_sys=7, slv=75, elv=999,drop_list = [14079],drop_rule = [{[{4000,1}],1000}]};
+get_mon_drop_rule(8,4,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=4, mon_sys=12, slv=75, elv=999,drop_list = [14079],drop_rule = [{[{4000,5}],10000}]};
+get_mon_drop_rule(8,5,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=5, mon_sys=2, slv=75, elv=999,drop_list = [14080],drop_rule = [{[{5000,5}],10000}]};
+get_mon_drop_rule(8,5,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=5, mon_sys=4, slv=75, elv=999,drop_list = [14080],drop_rule = [{[{5000,2}],10000}]};
+get_mon_drop_rule(8,5,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=5, mon_sys=7, slv=75, elv=999,drop_list = [14080],drop_rule = [{[{5000,1}],1000}]};
+get_mon_drop_rule(8,5,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=5, mon_sys=12, slv=75, elv=999,drop_list = [14080],drop_rule = [{[{5000,5}],10000}]};
+get_mon_drop_rule(8,6,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=6, mon_sys=2, slv=75, elv=999,drop_list = [14081],drop_rule = [{[{6000,5}],10000}]};
+get_mon_drop_rule(8,6,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=6, mon_sys=4, slv=75, elv=999,drop_list = [14081],drop_rule = [{[{6000,2}],10000}]};
+get_mon_drop_rule(8,6,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=6, mon_sys=7, slv=75, elv=999,drop_list = [14081],drop_rule = [{[{6000,1}],1000}]};
+get_mon_drop_rule(8,6,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=6, mon_sys=12, slv=75, elv=999,drop_list = [14081],drop_rule = [{[{6000,5}],10000}]};
+get_mon_drop_rule(8,7,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=7, mon_sys=2, slv=75, elv=999,drop_list = [14082],drop_rule = [{[{7000,5}],10000}]};
+get_mon_drop_rule(8,7,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=7, mon_sys=4, slv=75, elv=999,drop_list = [14082],drop_rule = [{[{7000,2}],10000}]};
+get_mon_drop_rule(8,7,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=7, mon_sys=7, slv=75, elv=999,drop_list = [14082],drop_rule = [{[{7000,1}],1000}]};
+get_mon_drop_rule(8,7,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=7, mon_sys=12, slv=75, elv=999,drop_list = [14082],drop_rule = [{[{7000,5}],10000}]};
+get_mon_drop_rule(8,8,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=8, mon_sys=2, slv=75, elv=999,drop_list = [14083],drop_rule = [{[{8000,5}],10000}]};
+get_mon_drop_rule(8,8,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=8, mon_sys=4, slv=75, elv=999,drop_list = [14083],drop_rule = [{[{8000,2}],10000}]};
+get_mon_drop_rule(8,8,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=8, mon_sys=7, slv=75, elv=999,drop_list = [14083],drop_rule = [{[{8000,1}],1000}]};
+get_mon_drop_rule(8,8,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=8, mon_sys=12, slv=75, elv=999,drop_list = [14083],drop_rule = [{[{8000,5}],10000}]};
+get_mon_drop_rule(8,9,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=9, mon_sys=2, slv=75, elv=999,drop_list = [14084],drop_rule = [{[{9000,5}],10000}]};
+get_mon_drop_rule(8,9,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=9, mon_sys=4, slv=75, elv=999,drop_list = [14084],drop_rule = [{[{9000,2}],10000}]};
+get_mon_drop_rule(8,9,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=9, mon_sys=7, slv=75, elv=999,drop_list = [14084],drop_rule = [{[{9000,1}],1000}]};
+get_mon_drop_rule(8,9,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=9, mon_sys=12, slv=75, elv=999,drop_list = [14084],drop_rule = [{[{9000,5}],10000}]};
+get_mon_drop_rule(8,10,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=10, mon_sys=2, slv=75, elv=999,drop_list = [14085],drop_rule = [{[{10000,5}],10000}]};
+get_mon_drop_rule(8,10,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=10, mon_sys=4, slv=75, elv=999,drop_list = [14085],drop_rule = [{[{10000,2}],10000}]};
+get_mon_drop_rule(8,10,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=10, mon_sys=7, slv=75, elv=999,drop_list = [14085],drop_rule = [{[{10000,1}],1000}]};
+get_mon_drop_rule(8,10,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=10, mon_sys=12, slv=75, elv=999,drop_list = [14085],drop_rule = [{[{10000,5}],10000}]};
+get_mon_drop_rule(8,11,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=11, mon_sys=2, slv=75, elv=999,drop_list = [14086],drop_rule = [{[{11000,1}],6000}]};
+get_mon_drop_rule(8,11,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=11, mon_sys=4, slv=75, elv=999,drop_list = [14086],drop_rule = [{[{11000,1}],5000}]};
+get_mon_drop_rule(8,11,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=11, mon_sys=7, slv=75, elv=999,drop_list = [14086],drop_rule = [{[{11000,1}],3300}]};
+get_mon_drop_rule(8,11,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=11, mon_sys=12, slv=75, elv=999,drop_list = [14086],drop_rule = [{[{11000,1}],10000}]};
+get_mon_drop_rule(8,12,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=12, mon_sys=2, slv=75, elv=999,drop_list = [14087],drop_rule = [{[{12000,5}],10000}]};
+get_mon_drop_rule(8,12,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=12, mon_sys=4, slv=75, elv=999,drop_list = [14087],drop_rule = [{[{12000,2}],10000}]};
+get_mon_drop_rule(8,12,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=12, mon_sys=7, slv=75, elv=999,drop_list = [14087],drop_rule = [{[{12000,1}],1000}]};
+get_mon_drop_rule(8,12,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=12, mon_sys=12, slv=75, elv=999,drop_list = [14087],drop_rule = [{[{12000,5}],10000}]};
+get_mon_drop_rule(8,13,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=13, mon_sys=2, slv=75, elv=999,drop_list = [14088],drop_rule = [{[{13000,5}],10000}]};
+get_mon_drop_rule(8,13,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=13, mon_sys=4, slv=75, elv=999,drop_list = [14088],drop_rule = [{[{13000,2}],10000}]};
+get_mon_drop_rule(8,13,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=13, mon_sys=7, slv=75, elv=999,drop_list = [14088],drop_rule = [{[{13000,1}],1000}]};
+get_mon_drop_rule(8,13,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=13, mon_sys=12, slv=75, elv=999,drop_list = [14088],drop_rule = [{[{13000,5}],10000}]};
+get_mon_drop_rule(8,14,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=14, mon_sys=2, slv=75, elv=999,drop_list = [14089],drop_rule = [{[{14000,5}],10000}]};
+get_mon_drop_rule(8,14,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=14, mon_sys=4, slv=75, elv=999,drop_list = [14089],drop_rule = [{[{14000,2}],10000}]};
+get_mon_drop_rule(8,14,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=14, mon_sys=7, slv=75, elv=999,drop_list = [14089],drop_rule = [{[{14000,1}],1000}]};
+get_mon_drop_rule(8,14,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=14, mon_sys=12, slv=75, elv=999,drop_list = [14089],drop_rule = [{[{14000,5}],10000}]};
+get_mon_drop_rule(8,15,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=15, mon_sys=2, slv=75, elv=999,drop_list = [14090],drop_rule = [{[{15000,5}],10000}]};
+get_mon_drop_rule(8,15,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=15, mon_sys=4, slv=75, elv=999,drop_list = [14090],drop_rule = [{[{15000,2}],10000}]};
+get_mon_drop_rule(8,15,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=15, mon_sys=7, slv=75, elv=999,drop_list = [14090],drop_rule = [{[{15000,1}],1000}]};
+get_mon_drop_rule(8,15,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=15, mon_sys=12, slv=75, elv=999,drop_list = [14090],drop_rule = [{[{15000,5}],10000}]};
+get_mon_drop_rule(8,16,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=16, mon_sys=2, slv=75, elv=999,drop_list = [14091],drop_rule = [{[{16000,5}],10000}]};
+get_mon_drop_rule(8,16,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=16, mon_sys=4, slv=75, elv=999,drop_list = [14091],drop_rule = [{[{16000,2}],10000}]};
+get_mon_drop_rule(8,16,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=16, mon_sys=7, slv=75, elv=999,drop_list = [14091],drop_rule = [{[{16000,1}],1000}]};
+get_mon_drop_rule(8,16,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=16, mon_sys=12, slv=75, elv=999,drop_list = [14091],drop_rule = [{[{16000,5}],10000}]};
+get_mon_drop_rule(8,17,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=17, mon_sys=2, slv=75, elv=999,drop_list = [14092],drop_rule = [{[{17000,5}],10000}]};
+get_mon_drop_rule(8,17,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=17, mon_sys=4, slv=75, elv=999,drop_list = [14092],drop_rule = [{[{17000,2}],10000}]};
+get_mon_drop_rule(8,17,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=17, mon_sys=7, slv=75, elv=999,drop_list = [14092],drop_rule = [{[{17000,1}],1000}]};
+get_mon_drop_rule(8,17,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=17, mon_sys=12, slv=75, elv=999,drop_list = [14092],drop_rule = [{[{17000,5}],10000}]};
+get_mon_drop_rule(8,18,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=18, mon_sys=2, slv=75, elv=999,drop_list = [14093],drop_rule = [{[{18000,5}],10000}]};
+get_mon_drop_rule(8,18,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=18, mon_sys=4, slv=75, elv=999,drop_list = [14093],drop_rule = [{[{18000,2}],10000}]};
+get_mon_drop_rule(8,18,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=18, mon_sys=7, slv=75, elv=999,drop_list = [14093],drop_rule = [{[{18000,1}],1000}]};
+get_mon_drop_rule(8,18,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=18, mon_sys=12, slv=75, elv=999,drop_list = [14093],drop_rule = [{[{18000,5}],10000}]};
+get_mon_drop_rule(8,19,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=19, mon_sys=2, slv=75, elv=999,drop_list = [14094],drop_rule = [{[{19000,5}],10000}]};
+get_mon_drop_rule(8,19,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=19, mon_sys=4, slv=75, elv=999,drop_list = [14094],drop_rule = [{[{19000,2}],10000}]};
+get_mon_drop_rule(8,19,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=19, mon_sys=7, slv=75, elv=999,drop_list = [14094],drop_rule = [{[{19000,1}],1000}]};
+get_mon_drop_rule(8,19,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=19, mon_sys=12, slv=75, elv=999,drop_list = [14094],drop_rule = [{[{19000,5}],10000}]};
+get_mon_drop_rule(8,20,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=20, mon_sys=2, slv=75, elv=999,drop_list = [14095],drop_rule = [{[{20000,5}],10000}]};
+get_mon_drop_rule(8,20,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=20, mon_sys=4, slv=75, elv=999,drop_list = [14095],drop_rule = [{[{20000,2}],10000}]};
+get_mon_drop_rule(8,20,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=20, mon_sys=7, slv=75, elv=999,drop_list = [14095],drop_rule = [{[{20000,1}],1000}]};
+get_mon_drop_rule(8,20,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=20, mon_sys=12, slv=75, elv=999,drop_list = [14095],drop_rule = [{[{20000,5}],10000}]};
+get_mon_drop_rule(8,21,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=21, mon_sys=2, slv=75, elv=999,drop_list = [14096],drop_rule = [{[{21000,5}],10000}]};
+get_mon_drop_rule(8,21,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=21, mon_sys=4, slv=75, elv=999,drop_list = [14096],drop_rule = [{[{21000,2}],10000}]};
+get_mon_drop_rule(8,21,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=21, mon_sys=7, slv=75, elv=999,drop_list = [14096],drop_rule = [{[{21000,1}],1000}]};
+get_mon_drop_rule(8,21,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=21, mon_sys=12, slv=75, elv=999,drop_list = [14096],drop_rule = [{[{21000,5}],10000}]};
+get_mon_drop_rule(8,22,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=22, mon_sys=2, slv=75, elv=999,drop_list = [14097],drop_rule = [{[{22000,5}],10000}]};
+get_mon_drop_rule(8,22,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=22, mon_sys=4, slv=75, elv=999,drop_list = [14097],drop_rule = [{[{22000,2}],10000}]};
+get_mon_drop_rule(8,22,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=22, mon_sys=7, slv=75, elv=999,drop_list = [14097],drop_rule = [{[{22000,1}],1000}]};
+get_mon_drop_rule(8,22,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=22, mon_sys=12, slv=75, elv=999,drop_list = [14097],drop_rule = [{[{22000,5}],10000}]};
+get_mon_drop_rule(8,23,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=23, mon_sys=2, slv=75, elv=999,drop_list = [14098],drop_rule = [{[{23000,5}],10000}]};
+get_mon_drop_rule(8,23,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=23, mon_sys=4, slv=75, elv=999,drop_list = [14098],drop_rule = [{[{23000,2}],10000}]};
+get_mon_drop_rule(8,23,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=23, mon_sys=7, slv=75, elv=999,drop_list = [14098],drop_rule = [{[{23000,1}],1000}]};
+get_mon_drop_rule(8,23,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=23, mon_sys=12, slv=75, elv=999,drop_list = [14098],drop_rule = [{[{23000,5}],10000}]};
+get_mon_drop_rule(8,24,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=24, mon_sys=2, slv=75, elv=999,drop_list = [14099],drop_rule = [{[{24000,5}],10000}]};
+get_mon_drop_rule(8,24,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=24, mon_sys=4, slv=75, elv=999,drop_list = [14099],drop_rule = [{[{24000,2}],10000}]};
+get_mon_drop_rule(8,24,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=24, mon_sys=7, slv=75, elv=999,drop_list = [14099],drop_rule = [{[{24000,1}],1000}]};
+get_mon_drop_rule(8,24,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=24, mon_sys=12, slv=75, elv=999,drop_list = [14099],drop_rule = [{[{24000,5}],10000}]};
+get_mon_drop_rule(8,25,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=25, mon_sys=2, slv=75, elv=999,drop_list = [14100],drop_rule = [{[{25000,5}],10000}]};
+get_mon_drop_rule(8,25,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=25, mon_sys=4, slv=75, elv=999,drop_list = [14100],drop_rule = [{[{25000,2}],10000}]};
+get_mon_drop_rule(8,25,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=25, mon_sys=7, slv=75, elv=999,drop_list = [14100],drop_rule = [{[{25000,1}],1000}]};
+get_mon_drop_rule(8,25,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=25, mon_sys=12, slv=75, elv=999,drop_list = [14100],drop_rule = [{[{25000,5}],10000}]};
+get_mon_drop_rule(8,26,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=26, mon_sys=2, slv=75, elv=999,drop_list = [14101],drop_rule = [{[{26000,5}],10000}]};
+get_mon_drop_rule(8,26,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=26, mon_sys=4, slv=75, elv=999,drop_list = [14101],drop_rule = [{[{26000,2}],10000}]};
+get_mon_drop_rule(8,26,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=26, mon_sys=7, slv=75, elv=999,drop_list = [14101],drop_rule = [{[{26000,1}],1000}]};
+get_mon_drop_rule(8,26,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=26, mon_sys=12, slv=75, elv=999,drop_list = [14101],drop_rule = [{[{26000,5}],10000}]};
+get_mon_drop_rule(8,27,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=27, mon_sys=2, slv=75, elv=999,drop_list = [14102],drop_rule = [{[{27000,5}],10000}]};
+get_mon_drop_rule(8,27,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=27, mon_sys=4, slv=75, elv=999,drop_list = [14102],drop_rule = [{[{27000,2}],10000}]};
+get_mon_drop_rule(8,27,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=27, mon_sys=7, slv=75, elv=999,drop_list = [14102],drop_rule = [{[{27000,1}],1000}]};
+get_mon_drop_rule(8,27,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=27, mon_sys=12, slv=75, elv=999,drop_list = [14102],drop_rule = [{[{27000,5}],10000}]};
+get_mon_drop_rule(8,28,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=28, mon_sys=2, slv=75, elv=999,drop_list = [14103],drop_rule = [{[{28000,5}],10000}]};
+get_mon_drop_rule(8,28,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=28, mon_sys=4, slv=75, elv=999,drop_list = [14103],drop_rule = [{[{28000,2}],10000}]};
+get_mon_drop_rule(8,28,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=28, mon_sys=7, slv=75, elv=999,drop_list = [14103],drop_rule = [{[{28000,1}],1000}]};
+get_mon_drop_rule(8,28,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=28, mon_sys=12, slv=75, elv=999,drop_list = [14103],drop_rule = [{[{28000,5}],10000}]};
+get_mon_drop_rule(8,29,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=29, mon_sys=2, slv=75, elv=999,drop_list = [14104],drop_rule = [{[{29000,5}],10000}]};
+get_mon_drop_rule(8,29,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=29, mon_sys=4, slv=75, elv=999,drop_list = [14104],drop_rule = [{[{29000,2}],10000}]};
+get_mon_drop_rule(8,29,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=29, mon_sys=7, slv=75, elv=999,drop_list = [14104],drop_rule = [{[{29000,1}],1000}]};
+get_mon_drop_rule(8,29,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=29, mon_sys=12, slv=75, elv=999,drop_list = [14104],drop_rule = [{[{29000,5}],10000}]};
+get_mon_drop_rule(8,30,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=30, mon_sys=2, slv=75, elv=999,drop_list = [14105],drop_rule = [{[{30000,5}],10000}]};
+get_mon_drop_rule(8,30,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=30, mon_sys=4, slv=75, elv=999,drop_list = [14105],drop_rule = [{[{30000,2}],10000}]};
+get_mon_drop_rule(8,30,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=30, mon_sys=7, slv=75, elv=999,drop_list = [14105],drop_rule = [{[{30000,1}],1000}]};
+get_mon_drop_rule(8,30,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=30, mon_sys=12, slv=75, elv=999,drop_list = [14105],drop_rule = [{[{30000,5}],10000}]};
+get_mon_drop_rule(8,31,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=31, mon_sys=2, slv=75, elv=999,drop_list = [14106],drop_rule = [{[{31000,5}],10000}]};
+get_mon_drop_rule(8,31,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=31, mon_sys=4, slv=75, elv=999,drop_list = [14106],drop_rule = [{[{31000,2}],10000}]};
+get_mon_drop_rule(8,31,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=31, mon_sys=7, slv=75, elv=999,drop_list = [14106],drop_rule = [{[{31000,1}],1000}]};
+get_mon_drop_rule(8,31,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=31, mon_sys=12, slv=75, elv=999,drop_list = [14106],drop_rule = [{[{31000,5}],10000}]};
+get_mon_drop_rule(8,32,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=32, mon_sys=2, slv=75, elv=999,drop_list = [14107],drop_rule = [{[{32000,5}],10000}]};
+get_mon_drop_rule(8,32,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=32, mon_sys=4, slv=75, elv=999,drop_list = [14107],drop_rule = [{[{32000,2}],10000}]};
+get_mon_drop_rule(8,32,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=32, mon_sys=7, slv=75, elv=999,drop_list = [14107],drop_rule = [{[{32000,1}],1000}]};
+get_mon_drop_rule(8,32,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=32, mon_sys=12, slv=75, elv=999,drop_list = [14107],drop_rule = [{[{32000,5}],10000}]};
+get_mon_drop_rule(8,33,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=33, mon_sys=2, slv=75, elv=999,drop_list = [14108],drop_rule = [{[{33000,5}],10000}]};
+get_mon_drop_rule(8,33,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=33, mon_sys=4, slv=75, elv=999,drop_list = [14108],drop_rule = [{[{33000,2}],10000}]};
+get_mon_drop_rule(8,33,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=33, mon_sys=7, slv=75, elv=999,drop_list = [14108],drop_rule = [{[{33000,1}],1000}]};
+get_mon_drop_rule(8,33,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=33, mon_sys=12, slv=75, elv=999,drop_list = [14108],drop_rule = [{[{33000,5}],10000}]};
+get_mon_drop_rule(8,34,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=34, mon_sys=2, slv=75, elv=999,drop_list = [14109],drop_rule = [{[{34000,5}],10000}]};
+get_mon_drop_rule(8,34,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=34, mon_sys=4, slv=75, elv=999,drop_list = [14109],drop_rule = [{[{34000,2}],10000}]};
+get_mon_drop_rule(8,34,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=34, mon_sys=7, slv=75, elv=999,drop_list = [14109],drop_rule = [{[{34000,1}],1000}]};
+get_mon_drop_rule(8,34,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=34, mon_sys=12, slv=75, elv=999,drop_list = [14109],drop_rule = [{[{34000,5}],10000}]};
+get_mon_drop_rule(8,35,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=35, mon_sys=2, slv=75, elv=999,drop_list = [14110],drop_rule = [{[{35000,5}],10000}]};
+get_mon_drop_rule(8,35,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=35, mon_sys=4, slv=75, elv=999,drop_list = [14110],drop_rule = [{[{35000,2}],10000}]};
+get_mon_drop_rule(8,35,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=35, mon_sys=7, slv=75, elv=999,drop_list = [14110],drop_rule = [{[{35000,1}],1000}]};
+get_mon_drop_rule(8,35,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=35, mon_sys=12, slv=75, elv=999,drop_list = [14110],drop_rule = [{[{35000,5}],10000}]};
+get_mon_drop_rule(8,36,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=36, mon_sys=2, slv=75, elv=999,drop_list = [14111],drop_rule = [{[{36000,5}],10000}]};
+get_mon_drop_rule(8,36,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=36, mon_sys=4, slv=75, elv=999,drop_list = [14111],drop_rule = [{[{36000,2}],10000}]};
+get_mon_drop_rule(8,36,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=36, mon_sys=7, slv=75, elv=999,drop_list = [14111],drop_rule = [{[{36000,1}],1000}]};
+get_mon_drop_rule(8,36,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=36, mon_sys=12, slv=75, elv=999,drop_list = [14111],drop_rule = [{[{36000,5}],10000}]};
+get_mon_drop_rule(8,37,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=37, mon_sys=2, slv=75, elv=999,drop_list = [14112],drop_rule = [{[{37000,5}],10000}]};
+get_mon_drop_rule(8,37,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=37, mon_sys=4, slv=75, elv=999,drop_list = [14112],drop_rule = [{[{37000,2}],10000}]};
+get_mon_drop_rule(8,37,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=37, mon_sys=7, slv=75, elv=999,drop_list = [14112],drop_rule = [{[{37000,1}],1000}]};
+get_mon_drop_rule(8,37,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=37, mon_sys=12, slv=75, elv=999,drop_list = [14112],drop_rule = [{[{37000,5}],10000}]};
+get_mon_drop_rule(8,38,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=38, mon_sys=2, slv=75, elv=999,drop_list = [14113],drop_rule = [{[{38000,5}],10000}]};
+get_mon_drop_rule(8,38,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=38, mon_sys=4, slv=75, elv=999,drop_list = [14113],drop_rule = [{[{38000,2}],10000}]};
+get_mon_drop_rule(8,38,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=38, mon_sys=7, slv=75, elv=999,drop_list = [14113],drop_rule = [{[{38000,1}],1000}]};
+get_mon_drop_rule(8,38,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=38, mon_sys=12, slv=75, elv=999,drop_list = [14113],drop_rule = [{[{38000,5}],10000}]};
+get_mon_drop_rule(8,39,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=39, mon_sys=2, slv=75, elv=999,drop_list = [14114],drop_rule = [{[{39000,5}],10000}]};
+get_mon_drop_rule(8,39,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=39, mon_sys=4, slv=75, elv=999,drop_list = [14114],drop_rule = [{[{39000,2}],10000}]};
+get_mon_drop_rule(8,39,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=39, mon_sys=7, slv=75, elv=999,drop_list = [14114],drop_rule = [{[{39000,1}],1000}]};
+get_mon_drop_rule(8,39,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=39, mon_sys=12, slv=75, elv=999,drop_list = [14114],drop_rule = [{[{39000,5}],10000}]};
+get_mon_drop_rule(8,40,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=40, mon_sys=2, slv=75, elv=999,drop_list = [14115],drop_rule = [{[{40000,5}],10000}]};
+get_mon_drop_rule(8,40,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=40, mon_sys=4, slv=75, elv=999,drop_list = [14115],drop_rule = [{[{40000,2}],10000}]};
+get_mon_drop_rule(8,40,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=40, mon_sys=7, slv=75, elv=999,drop_list = [14115],drop_rule = [{[{40000,1}],1000}]};
+get_mon_drop_rule(8,40,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=40, mon_sys=12, slv=75, elv=999,drop_list = [14115],drop_rule = [{[{40000,5}],10000}]};
+get_mon_drop_rule(8,41,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=41, mon_sys=2, slv=75, elv=999,drop_list = [14116],drop_rule = [{[{41000,5}],10000}]};
+get_mon_drop_rule(8,41,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=41, mon_sys=4, slv=75, elv=999,drop_list = [14116],drop_rule = [{[{41000,2}],10000}]};
+get_mon_drop_rule(8,41,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=41, mon_sys=7, slv=75, elv=999,drop_list = [14116],drop_rule = [{[{41000,1}],1000}]};
+get_mon_drop_rule(8,41,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=41, mon_sys=12, slv=75, elv=999,drop_list = [14116],drop_rule = [{[{41000,5}],10000}]};
+get_mon_drop_rule(8,42,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=42, mon_sys=2, slv=75, elv=999,drop_list = [14117],drop_rule = [{[{42000,5}],10000}]};
+get_mon_drop_rule(8,42,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=42, mon_sys=4, slv=75, elv=999,drop_list = [14117],drop_rule = [{[{42000,2}],10000}]};
+get_mon_drop_rule(8,42,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=42, mon_sys=7, slv=75, elv=999,drop_list = [14117],drop_rule = [{[{42000,1}],1000}]};
+get_mon_drop_rule(8,42,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=42, mon_sys=12, slv=75, elv=999,drop_list = [14117],drop_rule = [{[{42000,5}],10000}]};
+get_mon_drop_rule(8,43,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=43, mon_sys=2, slv=75, elv=999,drop_list = [14118],drop_rule = [{[{43000,5}],10000}]};
+get_mon_drop_rule(8,43,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=43, mon_sys=4, slv=75, elv=999,drop_list = [14118],drop_rule = [{[{43000,2}],10000}]};
+get_mon_drop_rule(8,43,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=43, mon_sys=7, slv=75, elv=999,drop_list = [14118],drop_rule = [{[{43000,1}],1000}]};
+get_mon_drop_rule(8,43,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=43, mon_sys=12, slv=75, elv=999,drop_list = [14118],drop_rule = [{[{43000,5}],10000}]};
+get_mon_drop_rule(8,44,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=44, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{44000,5}],10000}]};
+get_mon_drop_rule(8,44,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=44, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{44000,2}],10000}]};
+get_mon_drop_rule(8,44,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=44, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{44000,1}],1000}]};
+get_mon_drop_rule(8,44,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=44, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{44000,5}],10000}]};
+get_mon_drop_rule(8,45,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=45, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{45000,5}],10000}]};
+get_mon_drop_rule(8,45,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=45, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{45000,2}],10000}]};
+get_mon_drop_rule(8,45,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=45, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{45000,1}],1000}]};
+get_mon_drop_rule(8,45,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=45, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{45000,5}],10000}]};
+get_mon_drop_rule(8,46,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=46, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{46000,5}],10000}]};
+get_mon_drop_rule(8,46,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=46, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{46000,2}],10000}]};
+get_mon_drop_rule(8,46,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=46, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{46000,1}],1000}]};
+get_mon_drop_rule(8,46,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=46, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{46000,5}],10000}]};
+get_mon_drop_rule(8,47,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=47, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{47000,5}],10000}]};
+get_mon_drop_rule(8,47,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=47, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{47000,2}],10000}]};
+get_mon_drop_rule(8,47,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=47, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{47000,1}],1000}]};
+get_mon_drop_rule(8,47,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=47, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{47000,5}],10000}]};
+get_mon_drop_rule(8,48,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=48, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{48000,5}],10000}]};
+get_mon_drop_rule(8,48,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=48, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{48000,2}],10000}]};
+get_mon_drop_rule(8,48,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=48, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{48000,1}],1000}]};
+get_mon_drop_rule(8,48,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=48, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{48000,5}],10000}]};
+get_mon_drop_rule(8,49,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=49, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{49000,5}],10000}]};
+get_mon_drop_rule(8,49,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=49, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{49000,2}],10000}]};
+get_mon_drop_rule(8,49,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=49, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{49000,1}],1000}]};
+get_mon_drop_rule(8,49,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=49, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{49000,5}],10000}]};
+get_mon_drop_rule(8,50,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=50, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{50000,5}],10000}]};
+get_mon_drop_rule(8,50,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=50, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{50000,2}],10000}]};
+get_mon_drop_rule(8,50,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=50, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{50000,1}],1000}]};
+get_mon_drop_rule(8,50,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=50, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{50000,5}],10000}]};
+get_mon_drop_rule(8,51,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=51, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{51000,5}],10000}]};
+get_mon_drop_rule(8,51,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=51, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{51000,2}],10000}]};
+get_mon_drop_rule(8,51,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=51, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{51000,1}],1000}]};
+get_mon_drop_rule(8,51,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=51, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{51000,5}],10000}]};
+get_mon_drop_rule(8,52,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=52, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{52000,5}],10000}]};
+get_mon_drop_rule(8,52,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=52, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{52000,2}],10000}]};
+get_mon_drop_rule(8,52,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=52, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{52000,1}],1000}]};
+get_mon_drop_rule(8,52,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=52, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{52000,5}],10000}]};
+get_mon_drop_rule(8,53,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=53, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{53000,5}],10000}]};
+get_mon_drop_rule(8,53,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=53, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{53000,2}],10000}]};
+get_mon_drop_rule(8,53,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=53, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{53000,1}],1000}]};
+get_mon_drop_rule(8,53,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=53, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{53000,5}],10000}]};
+get_mon_drop_rule(8,54,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=54, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{54000,5}],10000}]};
+get_mon_drop_rule(8,54,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=54, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{54000,2}],10000}]};
+get_mon_drop_rule(8,54,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=54, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{54000,1}],1000}]};
+get_mon_drop_rule(8,54,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=54, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{54000,5}],10000}]};
+get_mon_drop_rule(8,55,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=55, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{55000,5}],10000}]};
+get_mon_drop_rule(8,55,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=55, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{55000,2}],10000}]};
+get_mon_drop_rule(8,55,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=55, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{55000,1}],1000}]};
+get_mon_drop_rule(8,55,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=55, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{55000,5}],10000}]};
+get_mon_drop_rule(8,56,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=56, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{56000,5}],10000}]};
+get_mon_drop_rule(8,56,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=56, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{56000,2}],10000}]};
+get_mon_drop_rule(8,56,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=56, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{56000,1}],1000}]};
+get_mon_drop_rule(8,56,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=56, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{56000,5}],10000}]};
+get_mon_drop_rule(8,57,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=57, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{57000,5}],10000}]};
+get_mon_drop_rule(8,57,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=57, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{57000,2}],10000}]};
+get_mon_drop_rule(8,57,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=57, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{57000,1}],1000}]};
+get_mon_drop_rule(8,57,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=57, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{57000,5}],10000}]};
+get_mon_drop_rule(8,58,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=58, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{58000,5}],10000}]};
+get_mon_drop_rule(8,58,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=58, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{58000,2}],10000}]};
+get_mon_drop_rule(8,58,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=58, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{58000,1}],1000}]};
+get_mon_drop_rule(8,58,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=58, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{58000,5}],10000}]};
+get_mon_drop_rule(8,59,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=59, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{59000,5}],10000}]};
+get_mon_drop_rule(8,59,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=59, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{59000,2}],10000}]};
+get_mon_drop_rule(8,59,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=59, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{59000,1}],1000}]};
+get_mon_drop_rule(8,59,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=59, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{59000,5}],10000}]};
+get_mon_drop_rule(8,60,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=60, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{60000,5}],10000}]};
+get_mon_drop_rule(8,60,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=60, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{60000,2}],10000}]};
+get_mon_drop_rule(8,60,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=60, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{60000,1}],1000}]};
+get_mon_drop_rule(8,60,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=60, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{60000,5}],10000}]};
+get_mon_drop_rule(8,61,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=61, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{61000,5}],10000}]};
+get_mon_drop_rule(8,61,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=61, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{61000,2}],10000}]};
+get_mon_drop_rule(8,61,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=61, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{61000,1}],1000}]};
+get_mon_drop_rule(8,61,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=61, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{61000,5}],10000}]};
+get_mon_drop_rule(8,62,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=62, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{62000,5}],10000}]};
+get_mon_drop_rule(8,62,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=62, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{62000,2}],10000}]};
+get_mon_drop_rule(8,62,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=62, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{62000,1}],1000}]};
+get_mon_drop_rule(8,62,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=62, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{62000,5}],10000}]};
+get_mon_drop_rule(8,63,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=63, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{63000,5}],10000}]};
+get_mon_drop_rule(8,63,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=63, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{63000,2}],10000}]};
+get_mon_drop_rule(8,63,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=63, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{63000,1}],1000}]};
+get_mon_drop_rule(8,63,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=63, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{63000,5}],10000}]};
+get_mon_drop_rule(8,64,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=64, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{64000,5}],10000}]};
+get_mon_drop_rule(8,64,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=64, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{64000,2}],10000}]};
+get_mon_drop_rule(8,64,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=64, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{64000,1}],1000}]};
+get_mon_drop_rule(8,64,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=64, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{64000,5}],10000}]};
+get_mon_drop_rule(8,65,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=65, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{65000,5}],10000}]};
+get_mon_drop_rule(8,65,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=65, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{65000,2}],10000}]};
+get_mon_drop_rule(8,65,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=65, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{65000,1}],1000}]};
+get_mon_drop_rule(8,65,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=65, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{65000,5}],10000}]};
+get_mon_drop_rule(8,66,2,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=66, mon_sys=2, slv=75, elv=999,drop_list = [],drop_rule = [{[{66000,5}],10000}]};
+get_mon_drop_rule(8,66,4,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=66, mon_sys=4, slv=75, elv=999,drop_list = [],drop_rule = [{[{66000,2}],10000}]};
+get_mon_drop_rule(8,66,7,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=66, mon_sys=7, slv=75, elv=999,drop_list = [],drop_rule = [{[{66000,1}],1000}]};
+get_mon_drop_rule(8,66,12,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=8, sub_id=66, mon_sys=12, slv=75, elv=999,drop_list = [],drop_rule = [{[{66000,5}],10000}]};
+get_mon_drop_rule(9,1,10,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=9, sub_id=1, mon_sys=10, slv=75, elv=999,drop_list = [14076],drop_rule = [{[{1000,5}],10000}]};
+get_mon_drop_rule(9,2,10,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=9, sub_id=2, mon_sys=10, slv=75, elv=999,drop_list = [14077],drop_rule = [{[{2000,5}],10000}]};
+get_mon_drop_rule(9,3,10,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=9, sub_id=3, mon_sys=10, slv=75, elv=999,drop_list = [14078],drop_rule = [{[{3000,5}],10000}]};
+get_mon_drop_rule(9,4,10,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=9, sub_id=4, mon_sys=10, slv=75, elv=999,drop_list = [14079],drop_rule = [{[{4000,5}],10000}]};
+get_mon_drop_rule(9,5,10,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=9, sub_id=5, mon_sys=10, slv=75, elv=999,drop_list = [14080],drop_rule = [{[{5000,5}],10000}]};
+get_mon_drop_rule(9,6,10,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=9, sub_id=6, mon_sys=10, slv=75, elv=999,drop_list = [14081],drop_rule = [{[{6000,5}],10000}]};
+get_mon_drop_rule(9,7,10,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=9, sub_id=7, mon_sys=10, slv=75, elv=999,drop_list = [14082],drop_rule = [{[{7000,5}],10000}]};
+get_mon_drop_rule(9,8,10,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=9, sub_id=8, mon_sys=10, slv=75, elv=999,drop_list = [14083],drop_rule = [{[{8000,5}],10000}]};
+get_mon_drop_rule(9,9,10,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=9, sub_id=9, mon_sys=10, slv=75, elv=999,drop_list = [14084],drop_rule = [{[{9000,5}],10000}]};
+get_mon_drop_rule(9,10,10,MonLv) when MonLv >= 75 andalso MonLv =< 999->
+    #base_mon_type_drop{act_id=9, sub_id=10, mon_sys=10, slv=75, elv=999,drop_list = [14085],drop_rule = [{[{10000,5}],10000}]};
+get_mon_drop_rule(_ActId,_SubId,_MonType, _MonLv) ->
+    [].
+
+get_act_type_list() -> [8,9].

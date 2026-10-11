@@ -1,0 +1,1 @@
+alter table rush_treasure_rank add column `server_name` varchar(512) DEFAULT '[]' COMMENT '服务器名称';

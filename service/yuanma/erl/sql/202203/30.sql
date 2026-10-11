@@ -1,0 +1,1 @@
+alter table `player_enchantment_guard` add column `node_id` smallint(6) unsigned not null default 0 comment '新手流程节点';
