@@ -46,13 +46,25 @@ function doMock(){
       if(d && d.ret === 0){
         document.getElementById('ttl').textContent = '充值成功';
         ok.textContent = '✅ ' + (d.msg || '已到账') + '（请进入游戏在邮箱领取）';
-        btn.style.display = 'none';
+        btn.style.display = 'none'; showReceipt(order);
       } else {
         ok.textContent = (d && d.msg) ? d.msg : '处理失败';
         btn.disabled = false; btn.textContent = '模拟支付（测试通道）';
       }
     })
     .catch(function(){ ok.textContent = '网络异常'; btn.disabled = false; btn.textContent = '模拟支付（测试通道）'; });
+}
+function showReceipt(order){
+  if(!order||document.getElementById('rcptLink'))return;
+  var a=document.createElement('a');a.id='rcptLink';a.className='btn sec';a.style.textDecoration='none';a.style.display='block';
+  a.href='/api/receipt?order='+encodeURIComponent(order);a.target='_blank';a.textContent='查看支付凭证';
+  document.querySelector('.c').insertBefore(a,document.getElementById('ok'));
+}
+if(q.get('paid')==='1'){
+  document.getElementById('ttl').textContent='充值成功';
+  document.getElementById('payBtn').style.display='none';
+  var _t=document.querySelector('.tip');if(_t)_t.innerHTML='支付已完成，<b>勾玉</b> 将发放到该角色的游戏邮箱，进游戏后在邮箱领取即可。';
+  showReceipt(order);
 }
 document.getElementById('payBtn').onclick = doMock;
 </script>

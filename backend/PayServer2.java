@@ -32,11 +32,8 @@ public class PayServer2 {
     static String appPrivateKey = "";
 
     public static void main(String[] args) throws Exception {
-        String bd = System.getenv("PAY_BASE");
-        if (bd != null && bd.length() > 0) baseDir = bd;
         props.load(new InputStreamReader(new FileInputStream(baseDir + "/pay.properties"), StandardCharsets.UTF_8));
         port = Integer.parseInt(props.getProperty("pay_listen_port", "" + port));
-        String bind = props.getProperty("pay_bind", "127.0.0.1").trim();
         gateway = props.getProperty("alipay_gateway", gateway).trim();
         appid = props.getProperty("alipay_appid", "").trim();
         privPath = props.getProperty("alipay_private_key_path", baseDir + "/alipay/app_private_key.txt").trim();
@@ -59,11 +56,12 @@ public class PayServer2 {
         c.setSignType("RSA2");
         client = new DefaultAlipayClient(c);
 
-        HttpServer srv = HttpServer.create(new InetSocketAddress(bind, port), 0);
+        String bindHost = System.getenv("LISTEN_HOST") != null ? System.getenv("LISTEN_HOST") : "127.0.0.1";
+        HttpServer srv = HttpServer.create(new InetSocketAddress(bindHost, port), 0);
         srv.createContext("/", new H());
         srv.setExecutor(java.util.concurrent.Executors.newFixedThreadPool(6));
         srv.start();
-        System.out.println("PayServer2(SDK) on http://" + bind + ":" + port + " appid=" + appid + " gw=" + gateway);
+        System.out.println("PayServer2(SDK) on http://127.0.0.1:" + port + " appid=" + appid + " gw=" + gateway);
     }
 
     static String readAll(File f) throws IOException {
@@ -114,9 +112,10 @@ public class PayServer2 {
                     Map<String, String> f = form(readStream(ex.getRequestBody()));
                     boolean ok = AlipaySignature.rsaCertCheckV1(f, alipayCertPath, "utf-8", "RSA2");
                     String order = f.get("out_trade_no"), status = f.get("trade_status");
+                    String tradeNo = f.get("trade_no");
                     System.out.println("[notify] order=" + order + " status=" + status + " verify=" + ok);
                     if (ok && order != null && ("TRADE_SUCCESS".equals(status) || "TRADE_FINISHED".equals(status))) {
-                        httpGet(apiBase + "?method=mock_pay&order=" + URLEncoder.encode(order, "UTF-8"));
+                        httpGet(apiBase + "?method=mock_pay&order=" + URLEncoder.encode(order, "UTF-8") + "&trade_no=" + URLEncoder.encode(tradeNo == null ? "" : tradeNo, "UTF-8"));
                     }
                     out(ex, 200, "text/plain; charset=utf-8", ok ? "success" : "fail");
                     return;
@@ -125,15 +124,17 @@ public class PayServer2 {
                     Map<String, String> q = form(ex.getRequestURI().getQuery());
                     String order = q.get("out_trade_no");
                     boolean paid = false;
+                    String tradeNo = "";
                     if (order != null) {
                         AlipayTradeQueryRequest rq = new AlipayTradeQueryRequest();
                         rq.setBizContent("{\"out_trade_no\":\"" + order + "\"}");
                         AlipayTradeQueryResponse rs = client.certificateExecute(rq);
                         String st = rs.getTradeStatus();
+                        tradeNo = rs.getTradeNo();
                         paid = "TRADE_SUCCESS".equals(st) || "TRADE_FINISHED".equals(st);
                         System.out.println("[return] order=" + order + " code=" + rs.getCode() + " status=" + st + " sub=" + rs.getSubCode());
                     }
-                    if (paid && order != null) httpGet(apiBase + "?method=mock_pay&order=" + URLEncoder.encode(order, "UTF-8"));
+                    if (paid && order != null) httpGet(apiBase + "?method=mock_pay&order=" + URLEncoder.encode(order, "UTF-8") + "&trade_no=" + URLEncoder.encode(tradeNo == null ? "" : tradeNo, "UTF-8"));
                     ex.getResponseHeaders().set("Location", "/recharge/pending.html?order=" + (order == null ? "" : order) + (paid ? "&paid=1" : ""));
                     ex.sendResponseHeaders(302, -1);
                     ex.close();

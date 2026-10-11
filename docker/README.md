@@ -1,6 +1,8 @@
-# Docker 化部署（规划/脚手架）
+# Docker 化部署
 
-把现网「原生 + el7 兼容库」的部署方式容器化。**注意：本目录尚未在真实 Docker 环境构建验证过**（开发机无 Docker）；请先在测试机 `docker compose build` 验证后再上线。
+把现网「原生 + el7 兼容库」的部署方式容器化。
+
+> ✅ 已在 CentOS7 虚拟机（Docker CE 26.1.4 + compose v2.27.1）**构建并端到端跑通**：mysql(导入真实库) + game(OTP19+faketime) + backend(JDK8/py2.7) + nginx，nginx 反代账号接口/后台/GM/wss 均正常。
 
 ## 组件
 
@@ -10,6 +12,18 @@
 | `game` | `./game`（centos:7） | 9180 / 9030 | Erlang OTP19 游戏服（s1 + kf），带 libfaketime 假时间 |
 | `backend` | `./backend`（centos:7 + JDK8 + python2.7） | 8896-8899 | 自研 GM/后台/支付/账号服务 |
 | `nginx` | `nginx:1.25` | 80 / 443 | 站点 + wss 反向代理 |
+
+## 环境变量
+
+| 变量 | 作用 | 默认 |
+|---|---|---|
+| `MYSQL_ROOT_PASSWORD` | MySQL root 密码 | change_me |
+| `DB_HOST` / `DB_PORT` | 游戏连库地址（容器内为 `mysql:3306`） | mysql:3306 |
+| `DB_PASS` | 游戏连库密码（会改写 gsrv.config） | 空=不改 |
+| `LISTEN_HOST` | 后端服务监听地址（容器内需 `0.0.0.0`） | 127.0.0.1 |
+| `FAKETIME` | 游戏假时间 | 2024-01-01 12:00:00 |
+
+> `backend/` 的 Java/Python 源码据此支持 `LISTEN_HOST` 环境变量：默认仍绑 `127.0.0.1`（与现网一致），容器里设 `0.0.0.0`。
 
 ## 前置：准备运行时（runtime/）
 
@@ -61,7 +75,10 @@ docker compose logs -f game
 ## 两个关键坑（已在配置里处理）
 
 1. **假时间**：游戏服有时间校验，系统时间 2026 起不来。`game/entrypoint.sh` 里用 **libfaketime** 只给 erl 进程假 `2024-01-01`，容器/宿主真实时间不受影响（否则 HTTPS、支付宝回调会出问题）。
-2. **el7 兼容库**：OTP19 的 crypto NIF 依赖 `libcrypto.so.10` / `libssl.so.10`（el7），entrypoint 会把 `runtime/compat-lib` 写进 `ld.so.conf.d` 并 `ldconfig`。
+   - EPEL7 里库路径是 `/usr/lib64/faketime/libfaketime.so.1`（Dockerfile 已建软链到 `/usr/lib64/`）。
+2. **无 TTY 的 erl**：原版用 `screen` 给伪终端，容器里改用 `-noinput`，否则 eshell 收到 EOF 会直接退出。
+3. **CentOS7 已 EOL**：基础镜像的 yum 源要换成 `vault.centos.org`，EPEL 换 `archives.fedoraproject.org`（Dockerfile 已处理）。
+4. **el7 兼容库**：若在 glibc 较新的宿主（如 Rocky9）上跑，OTP19 需要 `libcrypto/libssl.so.10`；entrypoint 会把 `runtime/compat-lib` 写进 `ld.so.conf.d` 并 `ldconfig`（centos:7 基础镜像自带，可留空目录）。
 
 ## DB 连接
 
@@ -70,7 +87,8 @@ docker compose logs -f game
 
 ## 已知待办
 
-- [ ] 在真实 Docker 环境构建验证
+- [x] 在真实 Docker 环境构建验证（CentOS7 VM）
 - [ ] 客户端 `ClientConfig.json` 的域名（`url_account_path` / `url_cdn_path`）改为容器对外域名
 - [ ] 账号服返回的 `host/port`（server 域名与 443）同步
 - [ ] 支付回调地址 `pay.properties` 的 notify/return 改为对外域名
+- [ ] 正式上线用的 TLS 证书（`nginx/certs/`）

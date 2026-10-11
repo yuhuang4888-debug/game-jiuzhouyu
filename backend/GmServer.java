@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * 九州谕 Java GM 后台 (替代 PHP)
+ * 非凡仙途 Java GM 后台 (替代 PHP)
  * - JDK 内置 HttpServer + JDBC
  * - 功能: GM码校验 / 区服选择 / 角色查询 / 发物品(邮件) / 授权(addvip/editvip/editpwd/delvip)
  * 配置: gm.properties
@@ -21,7 +21,7 @@ public class GmServer {
 
     static Properties cfg = new Properties();
     static String[] QU_KEYS;
-    static String gmTitle = "九州谕";
+    static String gmTitle = "非凡仙途";
     static String gmCode = "lyzwlkj.vip";
     static String dbHost = "127.0.0.1";
     static int dbPort = 3306;
@@ -35,7 +35,8 @@ public class GmServer {
         loadCfg();
         new File(baseDir).mkdirs();
         new File(baseDir + "/log").mkdirs();
-        HttpServer srv = HttpServer.create(new InetSocketAddress("127.0.0.1", listenPort), 0);
+        String bindHost = System.getenv("LISTEN_HOST") != null ? System.getenv("LISTEN_HOST") : "127.0.0.1";
+        HttpServer srv = HttpServer.create(new InetSocketAddress(bindHost, listenPort), 0);
         srv.createContext("/", new RootHandler());
         srv.createContext("/api", new ApiHandler());
         srv.createContext("/items", new ItemsHandler());
@@ -154,12 +155,12 @@ public class GmServer {
     }
 
     static String now() {
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date());
     }
 
     static void log(String name, String line) {
         try {
-            FileWriter fw = new FileWriter(baseDir + "/log/" + name + "_" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + ".log", true);
+            FileWriter fw = new FileWriter(baseDir + "/log/" + name + "_" + new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) + ".log", true);
             fw.write(now() + "\t" + line + "\n");
             fw.close();
         } catch (Exception e) {
@@ -383,7 +384,7 @@ public class GmServer {
                     if (num < 1 || num > 9999999) { sendJson(ex, "{\"errcode\":1,\"info\":\"物品数量范围:1-9999999\"}"); return; }
                     String[] p = item.split(",");
                     if (p.length < 2) { sendJson(ex, "{\"errcode\":1,\"info\":\"物品未选择\"}"); return; }
-                    sendItem(db, rid, p[0].trim(), p[1].trim(), num, cfg.getProperty("mail_title", "系统邮件"), cfg.getProperty("mail_content", "九州谕-系统官方给您发邮件了！"));
+                    sendItem(db, rid, p[0].trim(), p[1].trim(), num, cfg.getProperty("mail_title", "系统邮件"), cfg.getProperty("mail_content", "非凡仙途-系统官方给您发邮件了！"));
                     log("log_gm", qu + "区 发物品 角色:" + uid + " 物品:" + item + " 数量:" + num);
                     sendJson(ex, "{\"errcode\":0,\"info\":" + j("物品发送成功！" + uid) + "}");
                 } else if (type.equals("addvip") || type.equals("editvip") || type.equals("editpwd") || type.equals("delvip")) {
@@ -446,7 +447,7 @@ public class GmServer {
                     String item = f.get("item");
                     int num = Integer.parseInt(f.getOrDefault("num", "1"));
                     String[] p = item.split(",");
-                    sendItem(pdb, rid, p[0].trim(), p[1].trim(), num, cfg.getProperty("mail_title", "系统邮件"), cfg.getProperty("mail_content", "九州谕-系统官方给您发邮件了！"));
+                    sendItem(pdb, rid, p[0].trim(), p[1].trim(), num, cfg.getProperty("mail_title", "系统邮件"), cfg.getProperty("mail_content", "非凡仙途-系统官方给您发邮件了！"));
                     sendJson(ex, "{\"errcode\":0,\"info\":\"物品发送成功！\"}");
                 } else {
                     sendJson(ex, "{\"errcode\":1,\"info\":\"数据错误\"}");

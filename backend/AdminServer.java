@@ -12,7 +12,7 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/** 九州谕 管理员后台 v2：玩家管理 + 邮件群发 + 公告 + 游戏配置 + 充值产品 + 区服 */
+/** 非凡仙途 管理员后台 v2：玩家管理 + 邮件群发 + 公告 + 游戏配置 + 充值产品 + 区服 */
 public class AdminServer {
 
     static Properties cfg = new Properties();
@@ -32,7 +32,8 @@ public class AdminServer {
 
     public static void main(String[] args) throws Exception {
         reloadCfg();
-        HttpServer srv = HttpServer.create(new InetSocketAddress("127.0.0.1", listenPort), 0);
+        String bindHost = System.getenv("LISTEN_HOST") != null ? System.getenv("LISTEN_HOST") : "127.0.0.1";
+        HttpServer srv = HttpServer.create(new InetSocketAddress(bindHost, listenPort), 0);
         srv.createContext("/", new Handler());
         srv.setExecutor(java.util.concurrent.Executors.newFixedThreadPool(8));
         srv.start();
@@ -102,7 +103,7 @@ public class AdminServer {
             ".c{background:#1b2733;padding:28px;border-radius:12px;width:340px}.t{font-size:20px;margin-bottom:16px;text-align:center}" +
             "input{width:100%;padding:10px;margin:6px 0;box-sizing:border-box;border-radius:6px;border:1px solid #33475b;background:#0e1620;color:#eee}" +
             "button{width:100%;padding:11px;margin-top:8px;border:0;border-radius:6px;background:#2e8b57;color:#fff;font-size:16px;cursor:pointer}.m{color:#f66;font-size:13px;height:16px;text-align:center}</style></head>" +
-            "<body><form class='c' method='post' action='login'><div class='t'>九州谕 后台管理</div>" +
+            "<body><form class='c' method='post' action='login'><div class='t'>非凡仙途 后台管理</div>" +
             "<input name='user' placeholder='管理员账号' autofocus><input name='pass' type='password' placeholder='管理员密码'><button type='submit'>登录</button><div class='m'>" + msg + "</div></form></body></html>";
     }
 
@@ -149,7 +150,7 @@ public class AdminServer {
             "function payLoad(){api('pay_get',{},d=>{el('paytext').value=d.content||'';});}" +
             "function paySave(){api('pay_save',{c:g('paytext')},d=>show('paymsg',d.msg));}" +
             "function gmState(){api('gm_state',{},d=>{el('gmstate').textContent=('1'==d.enabled?'开启':'关闭');});}" +
-            "function ordersLoad(){api('orders',{date:g('odate')},d=>{if(d.ret!==0){show('omsg',d.msg||'查询失败');return;}let h='<table><tr><th>订单号</th><th>角色</th><th>账号</th><th>金额</th><th>商品(发放)</th><th>支付</th><th>状态</th><th>时间</th><th>操作</th></tr>';(d.list||[]).forEach(x=>{h+='<tr><td>'+x.id+'</td><td>'+esc(x.role)+'</td><td>'+esc(x.acc)+'</td><td>¥'+x.money+'</td><td>'+esc(x.goods||'')+'</td><td>'+esc(x.paytype)+'</td><td>'+(x.status==1?'已支付':'未支付')+'</td><td>'+esc(x.time)+'</td><td>'+(x.status==1?'-':'<button class=r onclick=orderPay(\"'+x.id+'\")>补单</button>')+'</td></tr>';});h+='</table>';el('olist').innerHTML=h;el('osum').textContent='共'+d.total+'单，已支付'+d.paid_count+'单，合计 ¥'+d.paid_money;});}" +
+            "function ordersLoad(){api('orders',{date:g('odate')},d=>{if(d.ret!==0){show('omsg',d.msg||'查询失败');return;}let h='<table><tr><th>订单号</th><th>角色</th><th>账号</th><th>金额</th><th>商品(发放)</th><th>支付</th><th>状态</th><th>时间</th><th>凭证号</th><th>操作</th></tr>';(d.list||[]).forEach(x=>{h+='<tr><td>'+x.id+'</td><td>'+esc(x.role)+'</td><td>'+esc(x.acc)+'</td><td>¥'+x.money+'</td><td>'+esc(x.goods||'')+'</td><td>'+esc(x.paytype)+'</td><td>'+(x.status==1?'已支付':'未支付')+'</td><td>'+esc(x.time)+'</td><td>'+esc(x.trade_no||'')+'</td><td>'+(x.status==1?'<button class=b onclick=\"window.open(\\'https://pay.rqsr888.cn/api/receipt?order='+x.id+'\\')\">凭证</button> <button class=r onclick=orderPay(\"'+x.id+'\")>补单</button>':'<button class=r onclick=orderPay(\"'+x.id+'\")>补单</button>')+'</td></tr>';});h+='</table>';el('olist').innerHTML=h;el('osum').textContent='共'+d.total+'单，已支付'+d.paid_count+'单，合计 ¥'+d.paid_money;});}" +
             "function orderPay(id){if(!confirm('确认补单并发放到该角色游戏邮箱？'))return;api('order_pay',{order:id},d=>{show('omsg',d.msg||(d.ret===0?'成功':'失败'));ordersLoad();});}" +
             "function fbLoad(){api('fb_list',{qu:g('fbqu')},d=>{let h='<table><tr><th>ID</th><th>玩家</th><th>内容</th><th>时间</th><th>状态</th><th>回复</th><th>操作</th></tr>';(d.list||[]).forEach(x=>{h+='<tr><td>'+x.id+'</td><td>'+esc(x.player_name)+'</td><td style=max-width:260px>'+esc(x.content)+'</td><td>'+esc(x.timeT)+'</td><td>'+(x.state==1?'已回复':'未回复')+'</td><td>'+esc(x.reply||'')+'</td><td><input id=\"fbr_'+x.id+'\" style=\"width:200px\" placeholder=\"回复内容\"><button class=\"g\" onclick=\"fbReply('+x.id+')\">回复</button><button class=\"b\" onclick=\"fbMail('+x.id+','+x.player_id+')\">邮件通知</button></td></tr>';});h+='</table>';el('fblist').innerHTML=h;el('fbmsg').textContent='共'+d.total+'条';});}" +
             "function fbReply(id){api('fb_reply',{qu:g('fbqu'),id:id,reply:g('fbr_'+id)},d=>{show('fbmsg',d.msg);fbLoad();});}" +
@@ -169,7 +170,7 @@ public class AdminServer {
             "function syncQu(v){let q=document.getElementById('qu');if(q)q.value=v;let q0=document.getElementById('qu0');if(q0)q0.value=v;}";
         String page =
             "<!DOCTYPE html><html><head><meta charset='utf-8'><title>后台管理</title><style>" + css + "</style></head><body><div class='wrap'>" +
-            "<div class='side'><h3>九州谕 后台</h3>" +
+            "<div class='side'><h3>非凡仙途 后台</h3>" +
             "<a data-n='dash' class='on' onclick=\"nav('dash')\">概览</a>" +
             "<a data-n='player' onclick=\"nav('player')\">玩家管理</a>" +
             "<a data-n='orders' onclick=\"nav('orders');ordersLoad()\">充值订单</a>" +
@@ -329,7 +330,7 @@ public class AdminServer {
     }
     static String propsText() {
         StringBuilder sb = new StringBuilder();
-        sb.append("gm_title=").append(cfg.getProperty("gm_title", "九州谕")).append("\n");
+        sb.append("gm_title=").append(cfg.getProperty("gm_title", "非凡仙途")).append("\n");
         sb.append("gm_code=").append(cfg.getProperty("gm_code", "lyzwlkj.vip")).append("\n");
         sb.append("gm_enabled=").append(cfg.getProperty("gm_enabled", "1")).append("\n");
         sb.append("db_host=").append(dbHost).append("\ndb_port=").append(dbPort).append("\ndb_user=").append(dbUser).append("\ndb_pass=").append(dbPass).append("\n");
@@ -339,7 +340,7 @@ public class AdminServer {
         sb.append("servers=").append(cfg.getProperty("servers", "1=game_s1")).append("\n");
         for (String kv : QU_KEYS) { String quid = kv.split("=")[0].trim(); sb.append("server_name_").append(quid).append("=").append(quName(quid)).append("\n"); }
         sb.append("mail_title=").append(cfg.getProperty("mail_title", "系统邮件")).append("\n");
-        sb.append("mail_content=").append(cfg.getProperty("mail_content", "九州谕-系统官方给您发邮件了！")).append("\n");
+        sb.append("mail_content=").append(cfg.getProperty("mail_content", "非凡仙途-系统官方给您发邮件了！")).append("\n");
         return sb.toString();
     }
 
@@ -403,7 +404,7 @@ public class AdminServer {
             PreparedStatement p2 = c.prepareStatement("insert into mail_attr (id,type,state,locked,sid,rid,title,cm_attachment,timestamp,effect_st) values (?,?,?,?,?,?,?,?,?,?)");
             for (Long rid : rids) {
                 long id = nextId++;
-                p1.setLong(1, id); p1.setLong(2, rid); p1.setString(3, cfg.getProperty("mail_content", "九州谕-系统官方给您发邮件了！")); p1.executeUpdate();
+                p1.setLong(1, id); p1.setLong(2, rid); p1.setString(3, cfg.getProperty("mail_content", "非凡仙途-系统官方给您发邮件了！")); p1.executeUpdate();
                 p2.setLong(1, id); p2.setInt(2, 2); p2.setInt(3, 2); p2.setInt(4, 2); p2.setInt(5, 0); p2.setLong(6, rid);
                 p2.setString(7, cfg.getProperty("mail_title", "系统邮件")); p2.setString(8, itemStr); p2.setLong(9, System.currentTimeMillis() * 1000L); p2.setInt(10, t); p2.executeUpdate();
             }

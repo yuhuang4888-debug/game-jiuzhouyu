@@ -42,6 +42,7 @@ services:
     environment:
       DB_HOST: ${DB_HOST:-mysql}
       DB_PORT: ${DB_PORT:-3306}
+      LISTEN_HOST: "0.0.0.0"
     volumes:
       - ./runtime/gm:/data/gm
       - ./runtime/api_server.py:/data/api_server.py:ro
