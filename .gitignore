@@ -29,6 +29,7 @@ deploy/db/
 
 # ===== 敏感信息（切勿提交）=====
 .cowork-temp/
+docker/.env
 **/alipay/
 *.key
 *.pem

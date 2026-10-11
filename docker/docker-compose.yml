@@ -1,0 +1,71 @@
+services:
+  mysql:
+    image: mysql:5.7
+    command:
+      - --character-set-server=utf8
+      - --collation-server=utf8_general_ci
+      - --sql-mode=NO_ENGINE_SUBSTITUTION
+      - --max_allowed_packet=64M
+      - --max_connections=500
+      - --default-storage-engine=InnoDB
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change_me}
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "3307:3306"
+    restart: unless-stopped
+
+  game:
+    build: ./game
+    depends_on:
+      - mysql
+    environment:
+      DB_HOST: ${DB_HOST:-mysql}
+      DB_PORT: ${DB_PORT:-3306}
+      FAKETIME: "2024-01-01 12:00:00"
+    volumes:
+      - ./runtime/otp_src_19.1:/data/otp_src_19.1:ro
+      - ./runtime/compat-lib:/data/compat-lib:ro
+      - ./runtime/game_s1:/data/game_s1
+      - ./runtime/game_kf:/data/game_kf
+    ports:
+      - "9180:9180"
+      - "9030:9030"
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    depends_on:
+      - mysql
+    environment:
+      DB_HOST: ${DB_HOST:-mysql}
+      DB_PORT: ${DB_PORT:-3306}
+    volumes:
+      - ./runtime/gm:/data/gm
+      - ./runtime/api_server.py:/data/api_server.py:ro
+      - ./runtime/game-www:/home/game-www:ro
+    ports:
+      - "8896:8896"
+      - "8897:8897"
+      - "8898:8898"
+      - "8899:8899"
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.25
+    depends_on:
+      - game
+      - backend
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+      - ./runtime/game-www:/home/game-www:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: unless-stopped
+
+volumes:
+  mysql-data:

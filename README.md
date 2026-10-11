@@ -34,17 +34,14 @@ cd client/h5
 ### 服务端
 参见 `部署与打包说明.md`、`部署到服务器-流程与修改清单.md` 与 `backend/README.md`。
 
-## Docker（规划中）
+## Docker
 
-当前生产环境为「原生 + el7 兼容库」部署（Erlang OTP19 + 兼容 libcrypto/libssl.so.10、独立 MySQL5.7、Python2.7、JDK8、Nginx、libfaketime 假时间）。
+容器化脚手架在 `docker/`（compose + `game/` `backend/` `nginx/` `mysql/`）：
 
-后续计划用 Docker 打包，方向：
-- `game-server`：Erlang OTP19 运行环境（基于 CentOS7 基础镜像 / el7 兼容库）
-- `mysql`：MySQL 5.7
-- `backend`：JDK8 + Python2.7 运行自研服务
-- `nginx`：站点 + wss 反代
+- 运行时（Erlang OTP19 / 游戏目录 / jar / 客户端资源）不入库，用 `docker/prepare-runtime.sh` 从现网抓取到 `docker/runtime/` 后 bind mount
+- 已处理两个关键坑：**libfaketime 假时间**（游戏需假 2024，容器/宿主保持真实时间）、**el7 兼容库 libcrypto/libssl.so.10**
 
-> 说明：游戏服有时间校验（需假 2024 时间）、且依赖 el7 的 libcrypto/libssl.so.10，容器化需要一并处理。
+详见 [`docker/README.md`](docker/README.md)。> ⚠️ 尚未在真实 Docker 环境构建验证。
 
 ## 安全
 
