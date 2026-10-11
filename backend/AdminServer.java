@@ -31,6 +31,7 @@ public class AdminServer {
     static int SESSION_TTL = 3600;
 
     public static void main(String[] args) throws Exception {
+        try { java.sql.DriverManager.setLoginTimeout(5); } catch (Exception ignore) {}
         reloadCfg();
         String bindHost = System.getenv("LISTEN_HOST") != null ? System.getenv("LISTEN_HOST") : "127.0.0.1";
         HttpServer srv = HttpServer.create(new InetSocketAddress(bindHost, listenPort), 0);
@@ -60,7 +61,7 @@ public class AdminServer {
 
     static Connection conn(String db) throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        String url = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + db + "?useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true";
+        String url = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + db + "?useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&connectTimeout=5000&socketTimeout=20000";
         return DriverManager.getConnection(url, dbUser, dbPass);
     }
     static String md5(String s) throws Exception { MessageDigest md = MessageDigest.getInstance("MD5"); byte[] b = md.digest(s.getBytes(StandardCharsets.UTF_8)); StringBuilder sb = new StringBuilder(); for (byte x : b) sb.append(String.format("%02x", x)); return sb.toString(); }
@@ -123,7 +124,7 @@ public class AdminServer {
         String js = "let cur={};function g(id){return document.getElementById(id).value;}function el(id){return document.getElementById(id);}" +
             "function show(id,t){el(id).textContent=t;}" +
             "function nav(name){document.querySelectorAll('.side a').forEach(a=>a.classList.toggle('on',a.dataset.n==name));document.querySelectorAll('.menu').forEach(d=>d.classList.toggle('on',d.id=='m_'+name));}" +
-            "function api(op,params,cb){let u='api?op='+op;for(let k in (params||{}))u+='&'+k+'='+encodeURIComponent(params[k]);fetch(u,{credentials:'same-origin'}).then(r=>r.json()).then(cb);}" +
+            "function api(op,params,cb){let u='api?op='+op;for(let k in (params||{}))u+='&'+k+'='+encodeURIComponent(params[k]);fetch(u,{credentials:'same-origin'}).then(r=>r.json()).then(cb).catch(e=>{try{show('msg','请求失败:'+(e&&e.message||e));}catch(_){}});}" +
             "function search(){api('search',{qu:g('qu'),key:g('key')},d=>{if(!d.ok){show('msg',d.msg||'未找到');el('info').style.display='none';el('ops').style.display='none';return;}cur=d;let r=d.role;" +
             " el('info').style.display='block';el('ops').style.display='block';" +
             " el('info').innerHTML='<b>玩家信息</b><table><tr><td class=k>角色ID</td><td>'+r.id+'</td><td class=k>角色名</td><td>'+r.nickname+'</td></tr>'+" +
@@ -172,10 +173,10 @@ public class AdminServer {
             "<!DOCTYPE html><html><head><meta charset='utf-8'><title>后台管理</title><style>" + css + "</style></head><body><div class='wrap'>" +
             "<div class='side'><h3>非凡仙途 后台</h3>" +
             "<a data-n='dash' class='on' onclick=\"nav('dash')\">概览</a>" +
-            "<a data-n='player' onclick=\"nav('player')\">玩家管理</a>" +
+            "<a data-n='player' onclick=\"nav('player');needItems()\">玩家管理</a>" +
             "<a data-n='orders' onclick=\"nav('orders');ordersLoad()\">充值订单</a>" +
             "<a data-n='feedback' onclick=\"nav('feedback');fbLoad()\">客服反馈</a>" +
-            "<a data-n='mailall' onclick=\"nav('mailall')\">邮件群发</a>" +
+            "<a data-n='mailall' onclick=\"nav('mailall');needItems()\">邮件群发</a>" +
             "<a data-n='notice' onclick=\"nav('notice');loadNotice()\">公告管理</a>" +
             "<a data-n='config' onclick=\"nav('config');loadCfg()\">游戏配置</a>" +
             "<a data-n='act' onclick=\"nav('act');actLoad()\">活动管理</a>" +
@@ -209,7 +210,7 @@ public class AdminServer {
             "<div class='menu' id='m_admin'><div class='card'><b>修改管理员密码</b><br>原密码<input id='oldpw' type='password'> 新密码<input id='newpw' type='password'><button class='g' onclick='setPw()'>保存</button><pre id='pwmsg'></pre></div></div>" +
             "<div class='menu' id='m_logs'><div class='card'><b>操作日志</b> 日期<input id='logdate' placeholder='YYYY-MM-DD'> <button class='b' onclick='logsLoad()'>查询</button><pre id='logtext' style='max-height:520px;overflow:auto'></pre></div></div>" +
             "<script>" + js +
-            "function loadItems(){(function(){let u='items?type=gm';fetch(u).then(r=>r.json()).then(a=>{['item','aitem'].forEach(id=>{let s=document.getElementById(id);s.innerHTML='';a.forEach(o=>{let p=document.createElement('option');p.value=o.type+','+o.itemsid;p.textContent=o.goods;s.appendChild(p);});});});})();}loadItems();" +
+            "function loadItems(){(function(){let u='items?type=gm';fetch(u).then(r=>r.json()).then(a=>{['item','aitem'].forEach(id=>{let s=document.getElementById(id);if(!s)return;s.innerHTML='<option value=\'\'>加载中...</option>';let frag=document.createDocumentFragment();a.forEach(o=>{let p=document.createElement('option');p.value=o.type+','+o.itemsid;p.textContent=o.goods;frag.appendChild(p);});s.innerHTML='';s.appendChild(frag);});});})();}function needItems(){if(window.__itemsLoaded)return;window.__itemsLoaded=1;loadItems();}" +
             "</script></div></div></body></html>";
         return page;
     }
