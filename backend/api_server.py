@@ -10,6 +10,9 @@ def http_get(url):
         return ''
 
 PAY = {}
+
+def _u(x):
+    return x.decode('utf-8', 'ignore') if isinstance(x, str) else x
 def load_pay():
     try:
         for line in open('/data/gm/pay.properties'):
@@ -191,16 +194,17 @@ class H(BaseHTTPServer.BaseHTTPRequestHandler):
                 try:
                     t0 = int(time.mktime(time.strptime(d, '%Y-%m-%d')))
                     t1 = t0 + 86400
-                    rows = query('select id,role,acc,money,paytype,status,ctime,goods,trade_no from orders where ctime>=? and ctime<? order by rowid desc limit 500', (t0, t1))
+                    rows = query('select id,role,sid,acc,money,paytype,status,ctime,goods,trade_no,gold from orders where ctime>=? and ctime<? order by rowid desc limit 500', (t0, t1))
                 except Exception:
                     rows = []
             else:
-                rows = query('select id,role,acc,money,paytype,status,ctime,goods,trade_no from orders order by rowid desc limit 500', ())
+                rows = query('select id,role,sid,acc,money,paytype,status,ctime,goods,trade_no,gold from orders order by rowid desc limit 500', ())
             paid = [r for r in rows if r['status'] == 1]
             lst = []
             for r in rows:
-                lst.append({'id': r['id'], 'role': r['role'], 'acc': r['acc'], 'money': r['money'], 'goods': r['goods'],
+                lst.append({'id': r['id'], 'role': r['role'], 'sid': r['sid'], 'acc': r['acc'], 'money': r['money'], 'goods': r['goods'],
                             'paytype': r['paytype'], 'status': r['status'], 'trade_no': (r['trade_no'] or ''),
+                            'gold': (r['gold'] or 0), 'ctime': (r['ctime'] or 0),
                             'time': time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(r['ctime'] or 0))})
             need = sorted(set([x['role'] for x in lst if not x.get('acc') and x.get('role')]))
             if need:
@@ -227,6 +231,100 @@ class H(BaseHTTPServer.BaseHTTPRequestHandler):
                 q = urllib2.quote(role.encode('utf-8') if isinstance(role, unicode) else role)
                 r = http_get('http://127.0.0.1:8897/internal_grant?order=%s&role=%s&money=%s' % (oid, q, money))
                 resp = {'ret': 0, 'msg': '已补单并发放到游戏邮箱', 'grant': r}
+        elif m == 'admin_order_add':
+            load_pay()
+            oid = _u(p.get('order') or '').strip()
+            role = _u(p.get('role') or '')
+            sid = _u(p.get('sid') or '1')
+            acc = _u(p.get('acc') or '')
+            paytype = _u(p.get('paytype') or 'alipay')
+            trade_no = _u(p.get('trade_no') or '')
+            goods = _u(p.get('goods') or '')
+            ctime = _u(p.get('ctime') or '').strip()
+            try:
+                money = int(p.get('money') or '0')
+            except Exception:
+                money = 0
+            try:
+                status = int(p.get('status') or '0')
+            except Exception:
+                status = 0
+            try:
+                gold = int(p.get('gold') or '0')
+            except Exception:
+                gold = 0
+            if not role:
+                resp = {'ret': 1, 'msg': u'角色名不能为空'}
+            elif money < 1:
+                resp = {'ret': 1, 'msg': u'金额必须大于 0'}
+            else:
+                if not gold:
+                    gold = money * 10
+                if not goods:
+                    goods = u'勾玉 x ' + str(gold)
+                ts = int(time.time())
+                if ctime:
+                    try:
+                        ts = int(time.mktime(time.strptime(ctime, '%Y-%m-%d %H:%M:%S')))
+                    except Exception:
+                        ts = int(time.time())
+                if not oid:
+                    prefix = PAY.get('order_prefix') or 'R'
+                    try:
+                        olen = int(PAY.get('order_digits') or '12')
+                    except Exception:
+                        olen = 12
+                    if olen < 4:
+                        olen = 4
+                    if olen > 24:
+                        olen = 24
+                    oid = prefix + ''.join([str(random.randint(0, 9)) for _ in range(olen)])
+                if query('select id from orders where id=?', (oid,)):
+                    resp = {'ret': 1, 'msg': u'订单号已存在：' + oid}
+                else:
+                    execu('insert into orders (id,role,sid,acc,money,paytype,status,ctime,trade_no,goods,gold) values (?,?,?,?,?,?,?,?,?,?,?)',
+                          (oid, role, sid, acc, money, paytype, status, ts, trade_no, goods, gold))
+                    resp = {'ret': 0, 'msg': u'新建订单成功：' + oid, 'order_id': oid}
+        elif m == 'admin_order_edit':
+            oid = _u(p.get('order') or '').strip()
+            if not oid:
+                resp = {'ret': 1, 'msg': u'缺少订单号'}
+            elif not query('select id from orders where id=?', (oid,)):
+                resp = {'ret': 1, 'msg': u'订单不存在：' + oid}
+            else:
+                role = _u(p.get('role') or '')
+                sid = _u(p.get('sid') or '1')
+                acc = _u(p.get('acc') or '')
+                paytype = _u(p.get('paytype') or 'alipay')
+                trade_no = _u(p.get('trade_no') or '')
+                goods = _u(p.get('goods') or '')
+                ctime = _u(p.get('ctime') or '').strip()
+                try:
+                    money = int(p.get('money') or '0')
+                except Exception:
+                    money = 0
+                try:
+                    status = int(p.get('status') or '0')
+                except Exception:
+                    status = 0
+                try:
+                    gold = int(p.get('gold') or '0')
+                except Exception:
+                    gold = 0
+                if not role or money < 1:
+                    resp = {'ret': 1, 'msg': u'角色名不能为空且金额必须大于 0'}
+                else:
+                    if not goods:
+                        goods = u'勾玉 x ' + str(gold)
+                    ts = int(time.time())
+                    if ctime:
+                        try:
+                            ts = int(time.mktime(time.strptime(ctime, '%Y-%m-%d %H:%M:%S')))
+                        except Exception:
+                            ts = int(time.time())
+                    execu('update orders set role=?,sid=?,acc=?,money=?,paytype=?,status=?,ctime=?,trade_no=?,goods=?,gold=? where id=?',
+                          (role, sid, acc, money, paytype, status, ts, trade_no, goods, gold, oid))
+                    resp = {'ret': 0, 'msg': u'修改成功：' + oid}
         elif m == 'mock_pay':
             oid = p.get('order') or ''
             rows = query('select id, role, money, status from orders where id=?', (oid,))
@@ -260,8 +358,6 @@ class H(BaseHTTPServer.BaseHTTPRequestHandler):
             resp = {'ret': 0, 'alipay': 1 if _ali else 0, 'wechat': 1 if _wx else 0}
         elif m == 'create_order':
             load_pay()
-            def _u(x):
-                return x.decode('utf-8','ignore') if isinstance(x,str) else x
             role = _u(p.get('role') or '')
             sid = _u(p.get('sid') or '1')
             acc = _u(p.get('acc') or '')
