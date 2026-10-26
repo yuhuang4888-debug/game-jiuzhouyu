@@ -27,6 +27,7 @@ def load_pay():
 DB = '/data/accounts.db'
 GAME_HOST = 'server.yb668.xyz'
 GAME_PORT = '443'
+REG_URL = 'https://game.yb668.xyz/register/'
 SERVER_ID = 1
 TK = 't' + 'k'          # column name, split to avoid text filters
 TOK = 'to' + 'ken'      # request param name
@@ -542,9 +543,11 @@ class H(BaseHTTPServer.BaseHTTPRequestHandler):
                 idcard = _dec(p.get('idcard'))
                 agent = _dec(p.get('agent'))
                 age = _age_from_idcard(idcard)
-                if idcard and age < 0:
+                if not idcard:
+                    resp = {'ret': 1, 'msg': '请通过网页注册（需实名认证、年满18周岁）：' + REG_URL}
+                elif age < 0:
                     resp = {'ret': 1, 'msg': '身份证号不合法'}
-                elif idcard and age < 18:
+                elif age < 18:
                     resp = {'ret': 1, 'msg': '未满18周岁，禁止注册'}
                 else:
                     t = gen_tk(uname)

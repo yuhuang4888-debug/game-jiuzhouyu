@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>九州谕 · 东方玄幻大作</title>
+<title>非凡仙途 · 东方玄幻大作</title>
 <style>
   :root{
     --gold:#f0d38a; --gold2:#e3b955; --ink:#0c1220; --ink2:#141b2e; --line:#2b3550;
@@ -81,7 +81,7 @@
 
   <div class="hero">
     <span class="badge">东方玄幻 · 阴阳师题材</span>
-    <div class="logo"><img src="/promo/logo.png" alt="九州谕"></div>
+    <div class="logo"><img src="/promo/logo.png" alt="非凡仙途"></div>
     <div class="sub">唯美画卷 · 激爽战斗 · 结社社交</div>
     <div class="stats">
       <div class="stat"><b>4</b>大职业</div>
@@ -90,6 +90,7 @@
     </div>
     <button class="cta" id="playBtn">立即进入游戏</button>
     <button class="cta ghost" id="rechargeBtn">充值中心</button>
+    <button class="cta ghost" id="regBtn">注册账号</button>
   </div>
 
   <div class="sec">
@@ -130,7 +131,7 @@
   </div>
 
   <footer>
-    九州谕 · 官方推广页<br>
+    非凡仙途 · 官方推广页<br>
     <span id="host"></span>
   </footer>
 </div>
@@ -144,8 +145,8 @@
 
 <script>
   // ===== 可配置项 =====
-  var GAME_URL = 'https://game.rqsr888.cn/';
-  var RECHARGE_URL = 'https://pay.rqsr888.cn/recharge/index.html';
+  var GAME_URL = 'https://game.yb668.xyz/';
+  var RECHARGE_URL = 'https://pay.yb668.xyz/recharge/index.html';
   // 截图（有真实截图时填资源路径，例如 '/resource/game/login/texture/xxx.png'）
   var SHOTS = ['/promo/shots/shot1.png', '', ''];
   // ===================
@@ -153,12 +154,13 @@
   document.getElementById('playBtn').onclick = function(){ location.href = GAME_URL; };
   document.getElementById('playBtn2').onclick = function(){ location.href = GAME_URL; };
   document.getElementById('rechargeBtn').onclick = function(){ location.href = RECHARGE_URL; };
+  document.getElementById('regBtn').onclick = function(){ var a=new URLSearchParams(location.search).get('agent'); location.href = '/register/' + (a?('?agent='+encodeURIComponent(a)):''); };
   document.getElementById('host').textContent = location.host;
 
   ['s1','s2','s3'].forEach(function(id, i){
     if(SHOTS[i]){ document.getElementById(id).innerHTML = '<img src="'+SHOTS[i]+'" alt="截图">'; }
   });
 </script>
-<div style="text-align:center;font-size:12px;color:#8a93b2;padding:14px 10px;line-height:1.8">运营单位：陕西诺全珊蕊网络科技有限公司&nbsp;&nbsp;<a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener" style="color:#8a93b2">陕ICP备2026024748号-1</a></div>
+<div style="text-align:center;font-size:12px;color:#8a93b2;padding:14px 10px;line-height:1.8">运营单位：南京蓝熠博科技有限公司&nbsp;&nbsp;<a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener" style="color:#8a93b2">苏ICP备2025224826号-1</a></div>
 </body>
 </html>
