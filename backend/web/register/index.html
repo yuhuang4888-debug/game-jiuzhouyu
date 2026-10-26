@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>注册账号</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0b1020;color:#e8e6f0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",Arial,sans-serif}
+.wrap{max-width:460px;margin:0 auto;padding:18px 14px 28px}
+.card{background:linear-gradient(180deg,#151b34,#1a2140);border:1px solid #2a3456;border-radius:16px;padding:18px 16px}
+h1{font-size:20px;text-align:center;color:#f3e7c4;margin:4px 0 16px;letter-spacing:2px}
+label{display:block;font-size:13px;color:#9fb0d0;margin:12px 0 6px}
+input{width:100%;padding:12px;border-radius:10px;border:1px solid #2f3a5e;background:#0f1428;color:#e8e6f0;font-size:15px;outline:none}
+input:focus{border-color:#e9c96a}
+.btn{display:block;width:100%;margin-top:18px;padding:14px;border:0;border-radius:12px;font-size:16px;font-weight:700;color:#3a2c00;background:linear-gradient(180deg,#f4dd9a,#e3b955);cursor:pointer}
+.btn:disabled{opacity:.6}
+.tip{font-size:13px;min-height:18px;margin-top:10px;text-align:center;color:#f0a5a5}
+.ok{color:#7ee2a8}
+.note{font-size:12px;color:#7f8bab;line-height:1.7;margin-top:10px}
+a{color:#7fb0ff}
+</style></head><body>
+<div class="wrap"><div class="card">
+<h1>注册账号</h1>
+<form id="f" onsubmit="return false">
+  <label>账号</label><input id="u" placeholder="6-20位字母数字" autocomplete="username">
+  <label>密码</label><input id="p" type="password" placeholder="6位以上" autocomplete="new-password">
+  <label>确认密码</label><input id="p2" type="password" placeholder="再输入一次">
+  <label>真实姓名</label><input id="rn" placeholder="与身份证一致">
+  <label>身份证号（仅校验是否满18周岁，不对外提供）</label><input id="idc" maxlength="18" placeholder="18位身份证号">
+  <label>推广码（选填）</label><input id="ag" placeholder="代理商推广码">
+  <button class="btn" id="sub" onclick="doReg()">注册</button>
+  <div class="tip" id="tip"></div>
+  <div class="note">注册即表示同意《用户协议》与《隐私政策》。本游戏仅面向年满18周岁的用户。</div>
+</form>
+</div><div style="text-align:center;font-size:12px;color:#8a93b2;padding:16px 10px;line-height:1.8">运营单位：南京蓝熠博科技有限公司&nbsp;&nbsp;<a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener" style="color:#8a93b2">苏ICP备2025224826号-1</a></div></div>
+<script>
+function val(id){return document.getElementById(id).value.trim();}
+function tip(t,ok){var e=document.getElementById('tip');e.textContent=t;e.className='tip'+(ok?' ok':'');}
+function ageFromId(s){
+  s=(s||'').toUpperCase();
+  if(!/^\d{17}[\dX]$/.test(s))return -1;
+  var y=+s.substr(6,4), m=+s.substr(10,2), d=+s.substr(12,2);
+  if(m<1||m>12||d<1||d>31)return -1;
+  var now=new Date(), age=now.getFullYear()-y;
+  if(now.getMonth()+1<m||(now.getMonth()+1===m&&now.getDate()<d))age--;
+  return age;
+}
+(function(){var q=new URLSearchParams(location.search);var a=q.get('agent');if(a)document.getElementById('ag').value=a;})();
+function doReg(){
+  var u=val('u'),p=val('p'),p2=val('p2'),rn=val('rn'),idc=val('idc'),ag=val('ag');
+  if(u.length<4)return tip('账号至少4位');
+  if(p.length<6)return tip('密码至少6位');
+  if(p!==p2)return tip('两次密码不一致');
+  if(!rn)return tip('请填写真实姓名');
+  var age=ageFromId(idc);
+  if(age<0)return tip('身份证号格式不正确');
+  if(age<18)return tip('未满18周岁，禁止注册');
+  var btn=document.getElementById('sub');btn.disabled=true;tip('提交中...',true);
+  var body='method=player_register&username='+encodeURIComponent(u)+'&pwd='+encodeURIComponent(p)
+    +'&realname='+encodeURIComponent(rn)+'&idcard='+encodeURIComponent(idc)+'&agent='+encodeURIComponent(ag);
+  fetch('/api/api.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d&&d.ret===0){tip('注册成功，正在进入游戏...',true);setTimeout(function(){location.href="https://game.yb668.xyz/";},1200);}
+      else{tip((d&&d.msg)||'注册失败');btn.disabled=false;}
+    })
+    .catch(function(){tip('网络异常，请重试');btn.disabled=false;});
+}
+</script></body></html>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # local account service: register/login (user+pass) + get_server_info(host/port/accname)
 # client sets player_login_info = WHOLE response of player_login -> login fields are top-level.
-import os, BaseHTTPServer, urlparse, json, hashlib, time, random, sqlite3, urllib2
+import BaseHTTPServer, urlparse, json, hashlib, time, random, sqlite3, urllib2
 
 def http_get(url):
     try:
@@ -25,7 +25,7 @@ def load_pay():
         pass
 
 DB = '/data/accounts.db'
-GAME_HOST = 'server.rqsr888.cn'
+GAME_HOST = 'server.yb668.xyz'
 GAME_PORT = '443'
 SERVER_ID = 1
 TK = 't' + 'k'          # column name, split to avoid text filters
@@ -46,6 +46,18 @@ def init_db():
             c.execute('alter table orders add column ' + _col)
         except Exception:
             pass
+    for _ddl in (
+        'alter table account2 add column realname text',
+        'alter table account2 add column idcard text',
+        'alter table account2 add column realname_ok integer default 0',
+        'alter table account2 add column agent_code text',
+    ):
+        try:
+            c.execute(_ddl)
+        except Exception:
+            pass
+    c.execute('create table if not exists agent (id integer primary key autoincrement, code text unique, name text, phone text, rate real default 0.2, note text, ctime integer, enabled integer default 1)')
+    c.execute('create table if not exists agent_commission (id integer primary key autoincrement, agent_code text, order_id text, role text, acc text, base_money real, pay_money real, rate real, amount real, status integer default 0, ctime integer, settle_time integer default 0)')
     c.commit()
     c.close()
 
@@ -75,6 +87,59 @@ def find_user_by_tk(t):
         return ''
     rows = query('select username from account2 where ' + TK + '=?', (t,))
     return rows[0]['username'] if rows else ''
+
+
+def _dec(x):
+    if x is None:
+        return ''
+    return x.decode('utf-8', 'ignore') if isinstance(x, str) else x
+
+
+def _age_from_idcard(s):
+    s = (s or '').strip().upper()
+    if len(s) != 18 or not s[:17].isdigit():
+        return -1
+    w = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]
+    chk = '10X98765432'
+    total = 0
+    for i in range(17):
+        total += int(s[i]) * w[i]
+    if s[17] != chk[total % 11]:
+        return -1
+    try:
+        by, bm, bd = int(s[6:10]), int(s[10:12]), int(s[12:14])
+        now = time.localtime()
+        age = now.tm_year - by - ((now.tm_mon, now.tm_mday) < (bm, bd))
+    except Exception:
+        return -1
+    return age if 0 <= age < 130 else -1
+
+
+def accrue_commission(oid):
+    try:
+        rows = query('select id,role,acc,money from orders where id=?', (oid,))
+        if not rows:
+            return
+        o = rows[0]
+        acc = o['acc'] or ''
+        if not acc:
+            return
+        ar = query('select agent_code from account2 where username=?', (acc,))
+        code = ar[0]['agent_code'] if ar else None
+        if not code:
+            return
+        ag = query('select code,rate from agent where code=? and enabled=1', (code,))
+        if not ag:
+            return
+        rate = float(ag[0]['rate'] or 0)
+        pay = float(o['money'] or 0)
+        amt = round(pay * rate, 2)
+        if query('select id from agent_commission where order_id=?', (oid,)):
+            return
+        execu('insert into agent_commission (agent_code,order_id,role,acc,base_money,pay_money,rate,amount,status,ctime) values (?,?,?,?,?,?,?,?,0,?)',
+              (code, oid, o['role'], acc, pay, pay, rate, amt, int(time.time())))
+    except Exception:
+        pass
 
 
 def login_fields(uname, t, ip):
@@ -112,14 +177,22 @@ def rcpt_html(o, oid):
            u'.row span{color:#8f9cc0;flex:none}.row b{text-align:right;word-break:break-all}'
            u'.btn{display:block;width:100%;margin-top:16px;padding:13px;border:0;border-radius:12px;background:linear-gradient(180deg,#f4dd9a,#e3b955);color:#3a2c00;font-weight:700;font-size:16px;cursor:pointer}'
            u'.foot{text-align:center;font-size:11px;color:#8a93b2;line-height:1.8;margin-top:14px}'
-           u'@media print{body{background:#fff;color:#000}.btn{display:none}.card{border:1px solid #ccc;background:#fff}.row span{color:#666}}')
+           u'.c{position:relative;z-index:1}'
+           u'.wm{position:fixed;left:-25%;top:-25%;width:150%;height:150%;z-index:0;pointer-events:none;-webkit-user-select:none;user-select:none;'
+           u'transform:rotate(-28deg);opacity:.11;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;'
+           u'gap:44px 58px;font-size:23px;font-weight:700;color:#cfe0ff;line-height:2.3;letter-spacing:3px}'
+           u'.wm span{white-space:nowrap}'
+           u'@media print{body{background:#fff;color:#000}.btn{display:none}.card{border:1px solid #ccc;background:#fff}.row span{color:#666}'
+           u'.wm{opacity:.12;color:#666}-webkit-print-color-adjust:exact;print-color-adjust:exact}')
     return (u'<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">'
             u'<meta name="viewport" content="width=device-width,initial-scale=1"><title>充值支付凭证</title>'
-            u'<style>' + css + u'</style></head><body><div class="c"><div class="card">'
+            u'<style>' + css + u'</style></head><body>'
+            u'<div class="wm">' + (u'<span>南京蓝熠博科技有限公司</span>') * 14 + u'</div>'
+            u'<div class="c"><div class="card">'
             u'<h1>非凡仙途 · 充值支付凭证</h1>'
-            u'<div class="sub">本凭证供对账/客服核对使用</div>' + badge + body +
+            u'<div class="sub">本页面由南京蓝熠博科技有限公司出具，仅作为充值到账凭证，不作为发票使用</div>' + badge + body +
             u'<button class="btn" onclick="window.print()">打印 / 保存凭证</button>'
-            u'<div class="foot">运营单位：陕西诺全珊蕊网络科技有限公司<br>陕ICP备2026024748号-1</div>'
+            u'<div class="foot">本凭证由南京蓝熠博科技有限公司出具<br>运营单位：南京蓝熠博科技有限公司<br>苏ICP备2025224826号-1</div>'
             u'</div></div></body></html>')
 
 class H(BaseHTTPServer.BaseHTTPRequestHandler):
@@ -228,6 +301,7 @@ class H(BaseHTTPServer.BaseHTTPRequestHandler):
             else:
                 role = rows[0]['role']; money = rows[0]['money']
                 execu('update orders set status=1, trade_no=? where id=?', ('MANUAL', oid))
+                accrue_commission(oid)
                 q = urllib2.quote(role.encode('utf-8') if isinstance(role, unicode) else role)
                 r = http_get('http://127.0.0.1:8897/internal_grant?order=%s&role=%s&money=%s' % (oid, q, money))
                 resp = {'ret': 0, 'msg': '已补单并发放到游戏邮箱', 'grant': r}
@@ -337,6 +411,7 @@ class H(BaseHTTPServer.BaseHTTPRequestHandler):
                 money = rows[0]['money']
                 _tn = p.get('trade_no') or ''
                 execu('update orders set status=1, trade_no=? where id=?', (_tn, oid))
+                accrue_commission(oid)
                 q = urllib2.quote(role.encode('utf-8') if isinstance(role, unicode) else role)
                 r = http_get('http://127.0.0.1:8897/internal_grant?order=%s&role=%s&money=%s' % (oid, q, money))
                 resp = {'ret': 0, 'msg': '充值成功（测试通道），已发放到游戏邮箱', 'grant': r}
@@ -387,7 +462,11 @@ class H(BaseHTTPServer.BaseHTTPRequestHandler):
                 if olen > 24:
                     olen = 24
                 oid = prefix + ''.join([str(random.randint(0, 9)) for _ in range(olen)])
-                gold = money * 10
+                base_money = money
+                money = round(base_money - random.uniform(0, 0.02), 2)
+                if money < 0.01:
+                    money = 0.01
+                gold = base_money * 10
                 goods = (u''.join(unichr(c) for c in (0x52fe, 0x7389))) + ' x ' + str(gold)
                 execu('insert into orders (id,role,sid,acc,money,paytype,status,ctime,goods,gold) values (?,?,?,?,?,?,0,?,?,?)',
                       (oid, role, sid, acc, money, paytype, int(time.time()), goods, gold))
@@ -396,6 +475,55 @@ class H(BaseHTTPServer.BaseHTTPRequestHandler):
                 else:
                     pay_url = '/recharge/pending.html?order=' + oid + '&money=' + str(money)
                 resp = {'ret': 0, 'order_id': oid, 'pay_url': pay_url, 'money': money, 'paytype': paytype, 'msg': 'ok'}
+        elif m == 'agent_list':
+            rows = query('select id,code,name,phone,rate,note,ctime,enabled from agent order by id desc', ())
+            lst = []
+            for r in rows:
+                n = query('select count(*) c from account2 where agent_code=?', (r['code'],))[0]['c']
+                s = query('select count(*) c, coalesce(sum(amount),0) a from agent_commission where agent_code=? and status=0', (r['code'],))[0]
+                lst.append({'id': r['id'], 'code': r['code'], 'name': r['name'], 'phone': r['phone'], 'rate': r['rate'],
+                            'note': r['note'], 'enabled': r['enabled'], 'users': n,
+                            'pending': float(s['a'] or 0), 'pending_cnt': s['c'],
+                            'time': time.strftime('%Y-%m-%d %H:%M', time.localtime(r['ctime'] or 0))})
+            resp = {'ret': 0, 'list': lst, 'total': len(lst)}
+        elif m == 'agent_save':
+            code = _dec(p.get('code')).strip()
+            if not code:
+                resp = {'ret': 1, 'msg': '推广码不能为空'}
+            else:
+                try:
+                    rate = float(p.get('rate') or '0.2')
+                except Exception:
+                    rate = 0.2
+                name = _dec(p.get('name')) or code
+                phone = _dec(p.get('phone'))
+                note = _dec(p.get('note'))
+                if query('select id from agent where code=?', (code,)):
+                    execu('update agent set name=?,phone=?,rate=?,note=?,enabled=1 where code=?', (name, phone, rate, note, code))
+                    resp = {'ret': 0, 'msg': '已更新代理'}
+                else:
+                    execu('insert into agent (code,name,phone,rate,note,ctime,enabled) values (?,?,?,?,?,?,1)', (code, name, phone, rate, note, int(time.time())))
+                    resp = {'ret': 0, 'msg': '已新增代理'}
+        elif m == 'agent_del':
+            execu('update agent set enabled=0 where code=?', (_dec(p.get('code')),))
+            resp = {'ret': 0, 'msg': '已停用代理'}
+        elif m == 'commission_list':
+            code = _dec(p.get('agent'))
+            if code:
+                rows = query('select id,agent_code,order_id,role,acc,pay_money,rate,amount,status,ctime from agent_commission where agent_code=? order by id desc limit 300', (code,))
+            else:
+                rows = query('select id,agent_code,order_id,role,acc,pay_money,rate,amount,status,ctime from agent_commission order by id desc limit 300', ())
+            lst = []
+            for r in rows:
+                lst.append({'id': r['id'], 'agent': r['agent_code'], 'order': r['order_id'], 'role': r['role'], 'acc': r['acc'],
+                            'pay': r['pay_money'], 'rate': r['rate'], 'amount': r['amount'], 'status': r['status'],
+                            'time': time.strftime('%Y-%m-%d %H:%M', time.localtime(r['ctime'] or 0))})
+            resp = {'ret': 0, 'list': lst, 'total': len(lst)}
+        elif m == 'commission_settle':
+            code = _dec(p.get('agent'))
+            c0 = query('select count(*) c, coalesce(sum(amount),0) a from agent_commission where agent_code=? and status=0', (code,))[0]
+            execu('update agent_commission set status=1, settle_time=? where agent_code=? and status=0', (int(time.time()), code))
+            resp = {'ret': 0, 'msg': '已结算 %d 笔，合计 %.2f 元' % (c0['c'], float(c0['a'] or 0))}
         elif m == 'admin_get_ban':
             rows = query('select banned from account2 where username=?', (uname,))
             banned = 1 if (rows and rows[0]['banned']) else 0
@@ -410,10 +538,20 @@ class H(BaseHTTPServer.BaseHTTPRequestHandler):
             elif query('select username from account2 where username=?', (uname,)):
                 resp = {'ret': 1, 'msg': '账号已存在'}
             else:
-                t = gen_tk(uname)
-                execu('insert into account2 (username,pwd,' + TK + ',ctime) values (?,?,?,?)', (uname, pwd, t, int(time.time())))
-                resp = {'ret': 0, 'msg': '注册成功', 'new_accname': 1}
-                resp.update(login_fields(uname, t, ip))
+                realname = _dec(p.get('realname'))
+                idcard = _dec(p.get('idcard'))
+                agent = _dec(p.get('agent'))
+                age = _age_from_idcard(idcard)
+                if idcard and age < 0:
+                    resp = {'ret': 1, 'msg': '身份证号不合法'}
+                elif idcard and age < 18:
+                    resp = {'ret': 1, 'msg': '未满18周岁，禁止注册'}
+                else:
+                    t = gen_tk(uname)
+                    execu('insert into account2 (username,pwd,' + TK + ',ctime,realname,idcard,realname_ok,agent_code) values (?,?,?,?,?,?,?,?)',
+                          (uname, pwd, t, int(time.time()), realname, idcard, 1 if idcard else 0, agent))
+                    resp = {'ret': 0, 'msg': '注册成功', 'new_accname': 1}
+                    resp.update(login_fields(uname, t, ip))
         elif m == 'player_check_login':
             rows = query('select username,pwd,' + TK + ',banned from account2 where username=?', (uname,))
             if not rows:
@@ -464,5 +602,4 @@ class H(BaseHTTPServer.BaseHTTPRequestHandler):
 
 if __name__ == '__main__':
     init_db()
-    LISTEN_HOST = os.environ.get('LISTEN_HOST') or '127.0.0.1'
-    BaseHTTPServer.HTTPServer((LISTEN_HOST, 8899), H).serve_forever()
+    BaseHTTPServer.HTTPServer(('127.0.0.1', 8899), H).serve_forever()

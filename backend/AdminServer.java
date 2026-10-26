@@ -148,10 +148,14 @@ public class AdminServer {
             "function loadMailAll(){api('server_list',{},d=>{}); }" +
             "function mailAll(){if(!confirm('确认给全服所有玩家发送这封邮件？'))return;api('mail_all',{qu:g('qu'),item:g('aitem'),num:g('anum')},d=>show('amsg',d.info));}" +
             "function setPw(){api('set_admin_pw',{old:g('oldpw'),np:g('newpw')},d=>show('pwmsg',d.msg));}" +
+            "function agentLoad(){api('agent_list',{},d=>{let h='<table><tr><th>推广码</th><th>名称</th><th>电话</th><th>比例</th><th>邀请人数</th><th>待结算</th></tr>';(d.list||[]).forEach(a=>{h+='<tr><td>'+esc(a.code)+'</td><td>'+esc(a.name||'')+'</td><td>'+esc(a.phone||'')+'</td><td>'+Math.round((a.rate||0)*100)+'%</td><td>'+a.users+'</td><td>¥'+a.pending+' ('+a.pending_cnt+')</td></tr>';});h+='</table>';el('aglist').innerHTML=h;el('agmsg').textContent='共'+(d.total||0)+'个代理';});}" +
+            "function agentSave(){api('agent_save',{code:g('ag_code'),name:g('ag_name'),phone:g('ag_phone'),rate:g('ag_rate'),note:g('ag_note')},d=>{show('agmsg',d.msg);agentLoad();});}" +
+            "function commLoad(){api('commission_list',{agent:g('cm_code')},d=>{let h='<table><tr><th>时间</th><th>代理</th><th>订单</th><th>角色</th><th>实付</th><th>比例</th><th>佣金</th><th>状态</th></tr>';(d.list||[]).forEach(x=>{h+='<tr><td>'+esc(x.time)+'</td><td>'+esc(x.agent)+'</td><td>'+esc(x.order)+'</td><td>'+esc(x.role)+'</td><td>¥'+x.pay+'</td><td>'+Math.round((x.rate||0)*100)+'%</td><td>¥'+x.amount+'</td><td>'+(x.status==1?'已结算':'待结算')+'</td></tr>';});h+='</table>';el('cmlist').innerHTML=h;el('cmmsg').textContent='共'+(d.total||0)+'条';});}" +
+            "function commSettle(){api('commission_settle',{agent:g('cm_code')},d=>{show('cmmsg',d.msg);agentLoad();commLoad();});}" +
             "function payLoad(){api('pay_get',{},d=>{el('paytext').value=d.content||'';});}" +
             "function paySave(){api('pay_save',{c:g('paytext')},d=>show('paymsg',d.msg));}" +
             "function gmState(){api('gm_state',{},d=>{el('gmstate').textContent=('1'==d.enabled?'开启':'关闭');});}" +
-            "function ordersLoad(){api('orders',{date:g('odate')},d=>{if(d.ret!==0){show('omsg',d.msg||'查询失败');return;}window._orders=d.list||[];let h='<table><tr><th>订单号</th><th>角色</th><th>账号</th><th>金额</th><th>商品(发放)</th><th>支付</th><th>状态</th><th>时间</th><th>凭证号</th><th>操作</th></tr>';(d.list||[]).forEach(x=>{h+='<tr><td>'+x.id+'</td><td>'+esc(x.role)+'</td><td>'+esc(x.acc)+'</td><td>¥'+x.money+'</td><td>'+esc(x.goods||'')+'</td><td>'+esc(x.paytype)+'</td><td>'+(x.status==1?'已支付':'未支付')+'</td><td>'+esc(x.time)+'</td><td>'+esc(x.trade_no||'')+'</td><td>'+(x.status==1?'<button class=b onclick=\"window.open(\\'https://pay.rqsr888.cn/api/receipt?order='+x.id+'\\')\">凭证</button> <button class=r onclick=orderPay(\"'+x.id+'\")>补单</button>':'<button class=r onclick=orderPay(\"'+x.id+'\")>补单</button>')+'<button class=b onclick=\"orderEdit(\\''+x.id+'\\')\">修改</button>'+'</td></tr>';});h+='</table>';el('olist').innerHTML=h;el('osum').textContent='共'+d.total+'单，已支付'+d.paid_count+'单，合计 ¥'+d.paid_money;});}" +
+            "function ordersLoad(){api('orders',{date:g('odate')},d=>{if(d.ret!==0){show('omsg',d.msg||'查询失败');return;}window._orders=d.list||[];let h='<table><tr><th>订单号</th><th>角色</th><th>账号</th><th>金额</th><th>商品(发放)</th><th>支付</th><th>状态</th><th>时间</th><th>凭证号</th><th>操作</th></tr>';(d.list||[]).forEach(x=>{h+='<tr><td>'+x.id+'</td><td>'+esc(x.role)+'</td><td>'+esc(x.acc)+'</td><td>¥'+x.money+'</td><td>'+esc(x.goods||'')+'</td><td>'+esc(x.paytype)+'</td><td>'+(x.status==1?'已支付':'未支付')+'</td><td>'+esc(x.time)+'</td><td>'+esc(x.trade_no||'')+'</td><td>'+(x.status==1?'<button class=b onclick=\"window.open(\\'https://pay.yb668.xyz/api/receipt?order='+x.id+'\\')\">凭证</button> <button class=r onclick=orderPay(\"'+x.id+'\")>补单</button>':'<button class=r onclick=orderPay(\"'+x.id+'\")>补单</button>')+'<button class=b onclick=\"orderEdit(\\''+x.id+'\\')\">修改</button>'+'</td></tr>';});h+='</table>';el('olist').innerHTML=h;el('osum').textContent='共'+d.total+'单，已支付'+d.paid_count+'单，合计 ¥'+d.paid_money;});}" +
             "function orderPay(id){if(!confirm('确认补单并发放到该角色游戏邮箱？'))return;api('order_pay',{order:id},d=>{show('omsg',d.msg||(d.ret===0?'成功':'失败'));ordersLoad();});}" +
             "function orderNew(){orderForm(null);}" +
             "function orderEdit(id){let o=(window._orders||[]).filter(x=>(''+x.id)==(''+id))[0];if(!o)return;orderForm(o);}" +
@@ -189,6 +193,7 @@ public class AdminServer {
             "<a data-n='product' onclick=\"nav('product');loadProducts()\">充值产品</a>" +
             "<a data-n='server' onclick=\"nav('server');loadServers()\">区服管理</a>" +
             "<a data-n='pay' onclick=\"nav('pay');payLoad()\">支付配置</a>" +
+            "<a data-n='agent' onclick=\"nav('agent');agentLoad()\">代理推广</a>" +
             "<a data-n='admin' onclick=\"nav('admin')\">管理员</a>" +
             "<a data-n='logs' onclick=\"nav('logs');logsLoad()\">操作日志</a>" +
             "<a onclick='location.href=\"logout\"'>退出</a></div>" +
@@ -209,6 +214,9 @@ public class AdminServer {
             "<div class='menu' id='m_actopen'><div class='card'><b>活动开启（custom_act_opening）</b> 区服<select id='aoqu' onchange='actOpenLoad()'>" + qu + "</select> <button class='b' onclick='actOpenLoad()'>刷新</button><div style='color:#8fb;font-size:13px;margin:6px 0'>新增/修改：type<input id='aotype' style='width:60px'> subtype<input id='aosub' style='width:60px'> 等阶wlv<input id='aowlv' style='width:60px'> 开始<input id='aost' type='datetime-local' step='1'> 结束<input id='aoet' type='datetime-local' step='1'> <button class='g' onclick='actOpenSave()'>保存</button><span style='color:#9cf' id='aomsg'></span></div><div id='aolist'>-</div></div></div>" +
             "<div class='menu' id='m_product'><div class='card'><b>充值产品（base_recharge_product）</b> <button class='b' onclick='loadProducts()'>刷新</button><pre id='pmsg'></pre><div id='prodlist'>-</div></div></div>" +
             "<div class='menu' id='m_server'><div class='card'><b>区服管理（gm.properties）</b><button class='b' onclick='loadServers()'>刷新</button><pre id='smsg'></pre><div id='srvlist'>-</div></div></div>" +
+            "<div class='menu' id='m_agent'><div class='card'><b>代理推广（推广码）</b><br>" +
+            "推广码<input id='ag_code' style='width:110px'> 名称<input id='ag_name' style='width:120px'> 电话<input id='ag_phone' style='width:120px'> 分佣比例<input id='ag_rate' value='0.2' style='width:60px'> 备注<input id='ag_note' style='width:150px'> <button class='g' onclick='agentSave()'>保存/新增</button><pre id='agmsg'></pre><div id='aglist'>-</div></div>" +
+            "<div class='card'><b>分佣明细</b> 推广码<input id='cm_code' style='width:110px'> <button class='b' onclick='commLoad()'>查询</button> <button class='r' onclick='commSettle()'>按推广码结算</button><pre id='cmmsg'></pre><div id='cmlist'>-</div></div></div>" +
             "<div class='menu' id='m_pay'><div class='card'><b>支付配置（/data/gm/pay.properties）</b> <button class='b' onclick='payLoad()'>重新加载</button> <button class='g' onclick='paySave()'>保存</button><pre id='paymsg'></pre>" +
             "<div style='color:#8fb;font-size:13px;line-height:1.8'>键值：alipay_appid / alipay_private_key_path / alipay_public_key / alipay_gateway / alipay_notify_url / alipay_return_url / <b>order_prefix(订单号开头字母)</b> / <b>order_digits(订单号位数)</b> / wechat_appid / wechat_mchid / wechat_key / pay_return_url</div>" +
             "<textarea id='paytext' style='height:300px'></textarea></div></div>" +
@@ -633,6 +641,28 @@ public class AdminServer {
         }
 
         File payf = new File(baseDir + "/pay.properties");
+        if (op.equals("agent_list")) {
+            String r = httpGet(accUrl + "?method=agent_list");
+            json(ex, r.isEmpty() ? "{\"ok\":false,\"ret\":1,\"msg\":\"服务无响应\"}" : r); return;
+        }
+        if (op.equals("agent_save")) {
+            String r = httpGet(accUrl + "?method=agent_save&code=" + enc(p.getOrDefault("code", "")) + "&name=" + enc(p.getOrDefault("name", "")) + "&phone=" + enc(p.getOrDefault("phone", "")) + "&rate=" + enc(p.getOrDefault("rate", "0.2")) + "&note=" + enc(p.getOrDefault("note", "")));
+            audit(ex, "agent_save", p.getOrDefault("code", "") + " rate=" + p.getOrDefault("rate", ""));
+            json(ex, r.isEmpty() ? "{\"ok\":false,\"ret\":1,\"msg\":\"服务无响应\"}" : r); return;
+        }
+        if (op.equals("agent_del")) {
+            String r = httpGet(accUrl + "?method=agent_del&code=" + enc(p.getOrDefault("code", "")));
+            json(ex, r.isEmpty() ? "{\"ok\":false,\"ret\":1,\"msg\":\"服务无响应\"}" : r); return;
+        }
+        if (op.equals("commission_list")) {
+            String r = httpGet(accUrl + "?method=commission_list&agent=" + enc(p.getOrDefault("agent", "")));
+            json(ex, r.isEmpty() ? "{\"ok\":false,\"ret\":1,\"msg\":\"服务无响应\"}" : r); return;
+        }
+        if (op.equals("commission_settle")) {
+            String r = httpGet(accUrl + "?method=commission_settle&agent=" + enc(p.getOrDefault("agent", "")));
+            audit(ex, "commission_settle", p.getOrDefault("agent", ""));
+            json(ex, r.isEmpty() ? "{\"ok\":false,\"ret\":1,\"msg\":\"服务无响应\"}" : r); return;
+        }
         if (op.equals("pay_get")) {
             String c = payf.exists() ? readAll(payf) : defaultPay();
             json(ex, "{\"ok\":true,\"content\":" + j(c) + "}"); return;
