@@ -120,9 +120,12 @@ public class AdminServer {
             "button{background:#2e8b57;color:#fff;border:0;cursor:pointer}button.b{background:#3568b2}button.r{background:#b23}button.g{background:#2e8b57}" +
             "table{border-collapse:collapse;width:100%;font-size:13px}td,th{border:1px solid #33475b;padding:5px 7px;text-align:left}" +
             "textarea{width:96%;height:420px;font-family:Consolas,monospace;font-size:13px}.k{color:#8fb}pre{white-space:pre-wrap;color:#9cf}" +
-            ".menu{display:none}.menu.on{display:block}";
+            ".menu{display:none}.menu.on{display:block}" +
+            "#sb{position:fixed;left:198px;top:10px;z-index:99;background:#24405e;color:#fff;padding:6px 10px;border-radius:8px;cursor:pointer;font-size:14px;user-select:none;transition:left .15s}" +
+            ".side{transition:width .15s}body.collapsed .side{width:0;padding:0;overflow:hidden}body.collapsed #sb{left:10px}";
         String js = "let cur={};function g(id){return document.getElementById(id).value;}function el(id){return document.getElementById(id);}" +
             "function show(id,t){el(id).textContent=t;}" +
+            "function toggleSide(){document.body.classList.toggle('collapsed');}" +
             "function nav(name){document.querySelectorAll('.side a').forEach(a=>a.classList.toggle('on',a.dataset.n==name));document.querySelectorAll('.menu').forEach(d=>d.classList.toggle('on',d.id=='m_'+name));}" +
             "function api(op,params,cb){let u='api?op='+op;for(let k in (params||{}))u+='&'+k+'='+encodeURIComponent(params[k]);fetch(u,{credentials:'same-origin'}).then(r=>r.json()).then(cb).catch(e=>{try{show('msg','请求失败:'+(e&&e.message||e));}catch(_){}});}" +
             "function search(){api('search',{qu:g('qu'),key:g('key')},d=>{if(!d.ok){show('msg',d.msg||'未找到');el('info').style.display='none';el('ops').style.display='none';return;}cur=d;let r=d.role;" +
@@ -180,7 +183,7 @@ public class AdminServer {
             "function logsLoad(){api('logs',{date:g('logdate')},d=>{el('logtext').textContent=d.log||'(无日志)';});}" +
             "function syncQu(v){let q=document.getElementById('qu');if(q)q.value=v;let q0=document.getElementById('qu0');if(q0)q0.value=v;}";
         String page =
-            "<!DOCTYPE html><html><head><meta charset='utf-8'><title>后台管理</title><style>" + css + "</style></head><body><div class='wrap'>" +
+            "<!DOCTYPE html><html><head><meta charset='utf-8'><title>后台管理</title><style>" + css + "</style></head><body><div id='sb' onclick='toggleSide()'>☰</div><div class='wrap'>" +
             "<div class='side'><h3>非凡仙途 后台</h3>" +
             "<a data-n='dash' class='on' onclick=\"nav('dash')\">概览</a>" +
             "<a data-n='player' onclick=\"nav('player');needItems()\">玩家管理</a>" +
