@@ -152,6 +152,7 @@ public class AdminServer {
             "function agentSave(){api('agent_save',{code:g('ag_code'),name:g('ag_name'),phone:g('ag_phone'),rate:g('ag_rate'),note:g('ag_note')},d=>{show('agmsg',d.msg);agentLoad();});}" +
             "function commLoad(){api('commission_list',{agent:g('cm_code')},d=>{let h='<table><tr><th>时间</th><th>代理</th><th>订单</th><th>角色</th><th>实付</th><th>比例</th><th>佣金</th><th>状态</th></tr>';(d.list||[]).forEach(x=>{h+='<tr><td>'+esc(x.time)+'</td><td>'+esc(x.agent)+'</td><td>'+esc(x.order)+'</td><td>'+esc(x.role)+'</td><td>¥'+x.pay+'</td><td>'+Math.round((x.rate||0)*100)+'%</td><td>¥'+x.amount+'</td><td>'+(x.status==1?'已结算':'待结算')+'</td></tr>';});h+='</table>';el('cmlist').innerHTML=h;el('cmmsg').textContent='共'+(d.total||0)+'条';});}" +
             "function commSettle(){api('commission_settle',{agent:g('cm_code')},d=>{show('cmmsg',d.msg);agentLoad();commLoad();});}" +
+            "function accLoad(){api('account_list',{q:g('acq')},d=>{let h='<table><tr><th>账号</th><th>姓名</th><th>身份证</th><th>实名</th><th>推广码</th><th>状态</th><th>注册时间</th></tr>';(d.list||[]).forEach(x=>{h+='<tr><td>'+esc(x.username)+'</td><td>'+esc(x.realname)+'</td><td>'+esc(x.idcard)+'</td><td>'+(x.ok==1?'已实名':'未实名')+'</td><td>'+esc(x.agent)+'</td><td>'+(x.banned==1?'<span style=color:#f66>封禁</span>':'正常')+'</td><td>'+esc(x.time)+'</td></tr>';});h+='</table>';el('aclist').innerHTML=h;el('acmsg').textContent=' 共'+(d.total||0)+'个账号';});}" +
             "function payLoad(){api('pay_get',{},d=>{el('paytext').value=d.content||'';});}" +
             "function paySave(){api('pay_save',{c:g('paytext')},d=>show('paymsg',d.msg));}" +
             "function gmState(){api('gm_state',{},d=>{el('gmstate').textContent=('1'==d.enabled?'开启':'关闭');});}" +
@@ -194,6 +195,7 @@ public class AdminServer {
             "<a data-n='server' onclick=\"nav('server');loadServers()\">区服管理</a>" +
             "<a data-n='pay' onclick=\"nav('pay');payLoad()\">支付配置</a>" +
             "<a data-n='agent' onclick=\"nav('agent');agentLoad()\">代理推广</a>" +
+            "<a data-n='accounts' onclick=\"nav('accounts');accLoad()\">玩家实名</a>" +
             "<a data-n='admin' onclick=\"nav('admin')\">管理员</a>" +
             "<a data-n='logs' onclick=\"nav('logs');logsLoad()\">操作日志</a>" +
             "<a onclick='location.href=\"logout\"'>退出</a></div>" +
@@ -217,6 +219,8 @@ public class AdminServer {
             "<div class='menu' id='m_agent'><div class='card'><b>代理推广（推广码）</b><br>" +
             "推广码<input id='ag_code' style='width:110px'> 名称<input id='ag_name' style='width:120px'> 电话<input id='ag_phone' style='width:120px'> 分佣比例<input id='ag_rate' value='0.2' style='width:60px'> 备注<input id='ag_note' style='width:150px'> <button class='g' onclick='agentSave()'>保存/新增</button><pre id='agmsg'></pre><div id='aglist'>-</div></div>" +
             "<div class='card'><b>分佣明细</b> 推广码<input id='cm_code' style='width:110px'> <button class='b' onclick='commLoad()'>查询</button> <button class='r' onclick='commSettle()'>按推广码结算</button><pre id='cmmsg'></pre><div id='cmlist'>-</div></div></div>" +
+            "<div class='menu' id='m_accounts'><div class='card'><b>玩家实名信息（账号库）</b> " +
+            "搜索<input id='acq' style='width:200px' placeholder='账号/姓名'> <button class='b' onclick='accLoad()'>查询</button><span id='acmsg' style='color:#9cf'></span><div id='aclist'>-</div></div></div>" +
             "<div class='menu' id='m_pay'><div class='card'><b>支付配置（/data/gm/pay.properties）</b> <button class='b' onclick='payLoad()'>重新加载</button> <button class='g' onclick='paySave()'>保存</button><pre id='paymsg'></pre>" +
             "<div style='color:#8fb;font-size:13px;line-height:1.8'>键值：alipay_appid / alipay_private_key_path / alipay_public_key / alipay_gateway / alipay_notify_url / alipay_return_url / <b>order_prefix(订单号开头字母)</b> / <b>order_digits(订单号位数)</b> / wechat_appid / wechat_mchid / wechat_key / pay_return_url</div>" +
             "<textarea id='paytext' style='height:300px'></textarea></div></div>" +
@@ -661,6 +665,10 @@ public class AdminServer {
         if (op.equals("commission_settle")) {
             String r = httpGet(accUrl + "?method=commission_settle&agent=" + enc(p.getOrDefault("agent", "")));
             audit(ex, "commission_settle", p.getOrDefault("agent", ""));
+            json(ex, r.isEmpty() ? "{\"ok\":false,\"ret\":1,\"msg\":\"服务无响应\"}" : r); return;
+        }
+        if (op.equals("account_list")) {
+            String r = httpGet(accUrl + "?method=admin_account_list&q=" + enc(p.getOrDefault("q", "")));
             json(ex, r.isEmpty() ? "{\"ok\":false,\"ret\":1,\"msg\":\"服务无响应\"}" : r); return;
         }
         if (op.equals("pay_get")) {

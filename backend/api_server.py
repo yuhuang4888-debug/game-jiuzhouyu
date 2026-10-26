@@ -525,6 +525,19 @@ class H(BaseHTTPServer.BaseHTTPRequestHandler):
             c0 = query('select count(*) c, coalesce(sum(amount),0) a from agent_commission where agent_code=? and status=0', (code,))[0]
             execu('update agent_commission set status=1, settle_time=? where agent_code=? and status=0', (int(time.time()), code))
             resp = {'ret': 0, 'msg': '已结算 %d 笔，合计 %.2f 元' % (c0['c'], float(c0['a'] or 0))}
+        elif m == 'admin_account_list':
+            q0 = _dec(p.get('q')).strip()
+            like = '%' + q0 + '%'
+            rows = query("select username,realname,idcard,realname_ok,agent_code,ctime,banned from account2 where username like ? or coalesce(realname,'') like ? order by ctime desc limit 200", (like, like))
+            lst = []
+            for r in rows:
+                idc = r['idcard'] or ''
+                mask = (idc[:6] + '********' + idc[-4:]) if len(idc) == 18 else idc
+                lst.append({'username': r['username'], 'realname': r['realname'] or '', 'idcard': mask,
+                            'ok': r['realname_ok'] or 0, 'agent': r['agent_code'] or '',
+                            'banned': r['banned'] or 0,
+                            'time': time.strftime('%Y-%m-%d %H:%M', time.localtime(r['ctime'] or 0))})
+            resp = {'ret': 0, 'list': lst, 'total': len(lst)}
         elif m == 'admin_get_ban':
             rows = query('select banned from account2 where username=?', (uname,))
             banned = 1 if (rows and rows[0]['banned']) else 0
